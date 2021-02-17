@@ -40,4 +40,13 @@ cd "gdrive/MyDrive/INDENG 135"
 ! {"git clone https://github.com/fcr3/aeolux.git"}
 ```
 
+Note: Some commands work just by typing them out, but some require to put a command in string format, wrap it around curly braces, and put an exclamation mark in the front to specify a bash command.
 
+## Notes
+
+### Common Git Commands
+1. `git clone clone_url`: Clones a repository
+2. `git add some_file`: Adds some file to the queue for committing
+3. `git commit -m "my message"`: Commits anything in the add queue to the git branch with the specified message
+4. `git checkout -b my_branch`: Creates a new branch named my_branch
+5. `git checkout another_branch`: Switch to another_branch
