@@ -9,7 +9,15 @@ Here is a streamlit demo showcasing object detection on images.
 3. Enter the following:
 
 ```
-$ python3 -m pip install --ignore-installed --no-cache-dir -r ./requirements.txt
+(env) $ python3 -m pip install --ignore-installed --no-cache-dir -r ./requirements.txt
+```
+
+4. Need to do a custom install of the pycocotools:
+
+```
+(env) $ cd streamlit_demo/notebooks/cocoapi/PythonAPI
+(env) $ make
+(env) $ python3 setup.py install
 ```
 
 ## Known Bugs
