@@ -1,0 +1,52 @@
+version: '3.2'
+
+services:
+  redis:
+    image: "redis:alpine"
+    container_name: redis1
+    command: redis-server
+    ports: 
+      - 3002:3002
+    volumes:
+      - $PWD/redis-data:/var/lib/redis
+      - $PWD/redis.conf:/user/local/etc/redis/redis.conf
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    networks:
+      - aeolux
+
+  backend:
+    image: aeolux/backend:main
+    container_name: backend1
+    build: $PWD/backend
+    command: python3 backend.py runserver 0.0.0.0:3001
+    links:
+      - redis
+    volumes:
+      - $PWD/backend:/app
+    ports:
+      - 3001:3001
+    networks:
+      - aeolux
+    depends_on:
+      - redis
+
+  frontend:
+    image: aeolux/frontend:main
+    container_name: frontend1
+    build: $PWD/frontend
+    links:
+      - backend
+    volumes:
+      - $PWD/frontend:/src
+    ports:
+      - 3000:3000
+    environment:
+      - PORT=3000
+    depends_on:
+      - redis
+      - backend
+    
+networks:
+  aeolux:
+    driver: bridge

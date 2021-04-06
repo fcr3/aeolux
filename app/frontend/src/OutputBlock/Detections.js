@@ -58,7 +58,7 @@ export default function Detections(props) {
                     </div>
                 ) : output.map((val, i) => {
                     return (
-                        <div style={{textAlign: "start"}}>
+                        <div key={i} style={{textAlign: "start"}}>
                             Input File {i+1}: {val['fileName']}<br/><br/>
                             <Canvas src={val['fileData']} 
                              detections={val['detections']} 

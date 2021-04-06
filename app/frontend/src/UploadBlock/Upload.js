@@ -8,6 +8,8 @@ import ListIcon from '@material-ui/icons/List';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import Divider from '@material-ui/core/Divider';
 import Paper from '@material-ui/core/Paper';
+import axios from 'axios';
+import urls from '../urls';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -86,6 +88,19 @@ export default function Upload(props) {
                             label="Age" variant="outlined"/>
                             <TextField id="outlined-basic" className={classes.textbox}
                             label="Gender" variant="outlined"/>
+                            <Button
+                                className={classes.button}
+                                variant="contained"
+                                component="span" 
+                                onClick={() => {
+                                    axios.get(urls.base + '/test_connection').then((res) => {
+                                        console.log(res.data);
+                                    }).catch((err) => {
+                                        console.log(err);
+                                    })
+                                }}>
+                                Save
+                            </Button>
                         </div>
 
                         <div>
@@ -181,29 +196,35 @@ export default function Upload(props) {
 
                     <Button variant="contained" className={classes.button} onClick={
                         () => {
-                            setState((prevState) => {
-                                return {
-                                    ...prevState,
-                                    output: uploadedData.map((val) => {
-                                        return {
-                                            ...val,
-                                            detections: {
-                                                'Pneumonia': [
-                                                    {x: 200, y: 170, w: 100, h: 100, p:0.9},
-                                                    {x: 400, y: 200, w: 100, h: 100, p:0.85},
-                                                ],
-                                                'Edema': [
-                                                    {x: 350, y: 150, w: 50, h: 40, p:0.60},
-                                                ],
-                                                'Lung Opacity': [
-                                                    {x: 270, y: 80, w: 40, h: 100, p:0.73},
-                                                ]
+                            axios.post(urls.base + '/detect', {data: uploadedData}, {
+                                headers: {'Content-Type': 'application/json'},
+                                withCredentials: true
+                            }).then((res) => {
+                                console.log(res.data);
+                                setState((prevState) => {
+                                    return {
+                                        ...prevState,
+                                        output: uploadedData.map((val) => {
+                                            return {
+                                                ...val,
+                                                detections: {
+                                                    'Pneumonia': [
+                                                        {x: 200, y: 170, w: 100, h: 100, p:0.9},
+                                                        {x: 400, y: 200, w: 100, h: 100, p:0.85},
+                                                    ],
+                                                    'Edema': [
+                                                        {x: 350, y: 150, w: 50, h: 40, p:0.60},
+                                                    ],
+                                                    'Lung Opacity': [
+                                                        {x: 270, y: 80, w: 40, h: 100, p:0.73},
+                                                    ]
+                                                }
                                             }
-                                        }
-                                    }),
-                                    showOutput: true
-                                }
-                            });
+                                        }),
+                                        showOutput: true
+                                    }
+                                });
+                            })
                         }
                      }>
                         Run Pre-Diagnosis
