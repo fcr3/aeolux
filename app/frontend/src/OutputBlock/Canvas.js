@@ -1,18 +1,13 @@
 import React, {Component, useEffect, useRef} from 'react'
 
-function rect(props) {
-    const {ctx, x, y, width, height} = props;
-    ctx.fillRect(x, y, width, height);
-}
-
-export default function Canvas(props) {
+export default function Canvass(props) {
     const canvasRef = useRef();
     const ctx = useRef();
 
     const diseaseColorMap = {
-        'Pneumonia': '#E8BBB0',
-        'Edema': '#6BD9BF',
-        'Lung Opacity': '#9FCBFF'
+        1: '#E8BBB0',
+        2: '#6BD9BF',
+        3: '#9FCBFF'
     };
   
     useEffect(() => {
@@ -21,27 +16,22 @@ export default function Canvas(props) {
         backgroundImage.src = props.src
 
         backgroundImage.onload = function() {
-            const {width, height} = ctx.current;
-            ctx.current.clearRect(width/2, 0, width, height);
+            // Create Temporary Canvas for Drawing
+            const width = 1024;
+            const height = 1024;
 
-            // Comment out to draw grid
-
-            // ctx.current.strokeStyle = "white"
-            // ctx.current.canvas.width  = 1000;
-            // ctx.current.canvas.height = 400;
-            // for (let x=0; x<=1000; x+=50) {
-            //     for (let y=0; y<=1000; y+=50) {
-            //         ctx.current.moveTo(x, 0);
-            //         ctx.current.lineTo(x, 400);
-            //         ctx.current.stroke();
-            //         ctx.current.moveTo(0, y);
-            //         ctx.current.lineTo(1000, y);
-            //         ctx.current.stroke();
-            //     }
-            // }
-
-            ctx.current.drawImage(backgroundImage, 0, 0);
-
+            let tempCanvas = document.createElement('canvas');
+            tempCanvas.width = width;
+            tempCanvas.height = height;
+            tempCanvas.getContext('2d').drawImage(backgroundImage, 0, 0);
+            
+            const scale = 0.5;
+            ctx.current.width = width*scale;
+            ctx.current.height = height*scale;
+            ctx.current.drawImage(
+                tempCanvas, 
+                0, 0, width, height, 
+                0, 0, width*scale, height*scale);
             ctx.current.lineWidth = 4;
             const detectionPairs = Object.entries(props.detections);
             for (const [k, v] of detectionPairs) {
@@ -52,16 +42,18 @@ export default function Canvas(props) {
                 for (const {x, y, w, h, p} of v) {
                     ctx.current.fillStyle = "white";
                     ctx.current.font = "bold 12px Arial";
-                    ctx.current.fillText(`P=${p*100}%`, x, y - 8);
-                    ctx.current.strokeRect(x, y, w, h);
+                    ctx.current.fillText(`P=${p*100}%`, x*scale, (y - 8)*scale);
+                    ctx.current.strokeRect(x*scale, y*scale, w*scale, h*scale);
                 }
             }
+            // ctx.current.wdith = backgroundImage.width * 0.1;
+            // ctx.current.height = backgroundImage.height * 0.1;
         }
     }, [props.src, props.detections, props.hiddenDiseases]);
 
     return (
       <React.Fragment>
-        <canvas ref={canvasRef} width="700" height="310" />
+        <canvas ref={canvasRef} width="512" height="512"/>
       </React.Fragment>
     );
   }

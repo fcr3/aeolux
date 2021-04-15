@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,10 +6,10 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ListIcon from '@material-ui/icons/List';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import Divider from '@material-ui/core/Divider';
 import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
 import urls from '../urls';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,6 +50,12 @@ export default function Upload(props) {
     const classes = useStyles();
     const [display, setDisplay] = useState('list');
     const [uploadedData, setUploadedData] = useState([]);
+    const [pendingState, setPendingState] = useState({
+        task_id: null, interval_ref: null,
+        status: null
+    });
+    let pendingRef = useRef();
+    pendingRef.current = pendingState;
 
     const handleUpload = ({target}) => {
         const fileReader = new FileReader();
@@ -62,6 +68,80 @@ export default function Upload(props) {
                 }]
             })
         }
+    }
+
+    const handleResult = () => {
+        console.log("Handle Result Called");
+        const pendingState = pendingRef.current;
+        console.log(pendingState);
+
+        if (pendingState.task_id === null && pendingState.interval_ref === null) {
+            return;
+        }
+
+        if (pendingState.task_id === null && pendingState.interval_ref !== null) {
+            clearInterval(pendingState.interval_ref)
+            setPendingState((prevState) => {
+                return {...prevState, interval_ref: null}
+            })
+            return;
+        }
+
+        axios.get(
+            urls.base + `/status/${pendingState.task_id}`
+        ).then((res) => {
+            console.log(res.data);
+
+            if (res.data.state === 'FAILURE' || res.data.state === 'incomplete') {
+                clearInterval(pendingState.interval_ref);
+                setPendingState((prevState) => {
+                    return {...prevState, status: res.data.state}
+                })
+                return;
+            }
+
+            if (res.data.state === 'PENDING') {
+                setPendingState((prevState) => {
+                    return {...prevState, status: res.data.state}
+                })
+                return;
+            }
+
+            if (res.data.state === 'SUCCESS') {
+                console.log("Cleared Interval!");
+                clearInterval(pendingState.interval_ref);
+                setPendingState({
+                    task_id: null, interval_ref: null, status: null
+                })
+                setState((prevState) => {
+                    return {
+                        ...prevState,
+                        output: res.data.result_info,
+                        showOutput: true
+                    }
+                });
+            }
+        }).catch((err) => {
+            clearInterval(pendingState.interval_ref);
+            console.log(err);
+            setPendingState({
+                task_id: null, interval_ref: null, status: null
+            })
+        });
+    }
+
+    const handlePending = () => {
+        axios.post(urls.base + '/detect', {data: uploadedData}, {
+            headers: {'Content-Type': 'application/json'},
+            withCredentials: true
+        }).then((res) => {
+            console.log(res.data);
+            setPendingState({
+                task_id: res.data.task_id,
+                status: 'PENDING',
+                interval_ref: setInterval(handleResult, 2000)
+            })
+        });
     }
 
     return (
@@ -158,8 +238,8 @@ export default function Upload(props) {
                         flexDirection: "column", 
                         justifyContent: "flex-start",
                         alignItems: "flex-start",
-                        maxHeight: "calc(50vh - 200px)",
-                        minHeight: "320px",
+                        maxHeight: "calc(50vh - 240px)",
+                        minHeight: "300px",
                         overflowY: "auto",
                         backgroundColor: "#ebebeb",
                         paddingTop: 16,
@@ -183,7 +263,7 @@ export default function Upload(props) {
                                             }}>
                                                 File Name: {v['fileName']}<br/><br/>
                                                 <img src={v['fileData']} style={{
-                                                    width: "70%", height: "auto"
+                                                    width: "33%", height: "auto"
                                                 }}/>
                                             </Paper>
                                         )
@@ -194,41 +274,19 @@ export default function Upload(props) {
                     }
                     </div>
 
-                    <Button variant="contained" className={classes.button} onClick={
-                        () => {
-                            axios.post(urls.base + '/detect', {data: uploadedData}, {
-                                headers: {'Content-Type': 'application/json'},
-                                withCredentials: true
-                            }).then((res) => {
-                                console.log(res.data);
-                                setState((prevState) => {
-                                    return {
-                                        ...prevState,
-                                        output: uploadedData.map((val) => {
-                                            return {
-                                                ...val,
-                                                detections: {
-                                                    'Pneumonia': [
-                                                        {x: 200, y: 170, w: 100, h: 100, p:0.9},
-                                                        {x: 400, y: 200, w: 100, h: 100, p:0.85},
-                                                    ],
-                                                    'Edema': [
-                                                        {x: 350, y: 150, w: 50, h: 40, p:0.60},
-                                                    ],
-                                                    'Lung Opacity': [
-                                                        {x: 270, y: 80, w: 40, h: 100, p:0.73},
-                                                    ]
-                                                }
-                                            }
-                                        }),
-                                        showOutput: true
-                                    }
-                                });
-                            })
-                        }
-                     }>
-                        Run Pre-Diagnosis
-                    </Button>
+                    {
+                        pendingState.status === null ?
+                        (
+                            <Button variant="contained" className={classes.button} 
+                            onClick={() => handlePending()}> 
+                                    Run Pre-Diagnosis
+                            </Button>
+                        ) : (
+                            <div style={{marginTop: 8, marginBottom: 8}}>
+                            <CircularProgress/>
+                            </div>
+                        )
+                    }
                 </Grid>
             </Grid>
         </div>

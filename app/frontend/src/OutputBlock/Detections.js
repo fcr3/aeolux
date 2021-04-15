@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "flex-start",
         overflowY: 'auto',
         maxHeight: "calc(50vh - 100px)",
-        minHeight: "400px"
+        minHeight: "400px",
       },
 }));
 
@@ -47,7 +47,7 @@ export default function Detections(props) {
             {
                 viewFileName ? (
                     <div style={{
-                        maxHeight: "100%", marginTop: 8, position: 'relative',
+                        marginTop: 8, position: 'relative',
                         display: 'flex', flexDirection: 'column',
                         justifyContent: 'center', alignItems: 'center'
                     }}>
@@ -58,7 +58,10 @@ export default function Detections(props) {
                     </div>
                 ) : output.map((val, i) => {
                     return (
-                        <div key={i} style={{textAlign: "start"}}>
+                        <div key={i} style={{
+                            textAlign: "start", width: "100%", 
+                            marginBottom: 32
+                        }}>
                             Input File {i+1}: {val['fileName']}<br/><br/>
                             <Canvas src={val['fileData']} 
                              detections={val['detections']} 

@@ -6,14 +6,29 @@ services:
     container_name: redis1
     command: redis-server
     ports: 
-      - 3002:3002
+      - 6379:6379
     volumes:
       - $PWD/redis-data:/var/lib/redis
-      - $PWD/redis.conf:/user/local/etc/redis/redis.conf
+      - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
     environment:
       - REDIS_REPLICATION_MODE=master
     networks:
       - aeolux
+
+  worker:
+    image: aeolux/worker:main
+    build:
+      context: $PWD/backend
+    command: celery -A "backend.celery" worker -l info
+    links:
+      - redis
+    volumes:
+      - $PWD/backend:/app
+    networks:
+      - aeolux
+    depends_on:
+      - redis
+
 
   backend:
     image: aeolux/backend:main

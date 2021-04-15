@@ -55,9 +55,9 @@ export default function Probabilities(props) {
     const probabilities = output;
 
     const diseaseColorMap = {
-        'Pneumonia': '#E8BBB0',
-        'Edema': '#6BD9BF',
-        'Lung Opacity': '#9FCBFF'
+        1: '#E8BBB0',
+        2: '#6BD9BF',
+        3: '#9FCBFF'
     };
 
     return (

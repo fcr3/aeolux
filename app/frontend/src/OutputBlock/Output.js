@@ -65,13 +65,13 @@ export default function Output(props) {
   return (
     <div className={classes.output}>
         <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={5} lg={3} className={classes.gridItem}>
+            <Grid item xs={12} sm={12} md={5} lg={4} className={classes.gridItem}>
             <Paper className={classes.paper}>
                 <Probabilities output={output} outputViewState={outputViewState}
                  setOutputViewState={setOutputViewState}/>
             </Paper>
             </Grid>
-            <Grid item xs={12} sm={6} md={7} lg={9} className={classes.gridItem}>
+            <Grid item xs={12} sm={12} md={7} lg={8} className={classes.gridItem}>
             <Paper className={classes.paper}>
                 <Detections output={output} outputViewState={outputViewState}/>
             </Paper>
