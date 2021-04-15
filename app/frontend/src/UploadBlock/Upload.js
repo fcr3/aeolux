@@ -9,18 +9,20 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
 import urls from '../urls';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      flexGrow: 1,
-      padding: 32
+        flexGrow: 1,
+        padding: 32
     },
     subtitle: {
-      flexGrow: 1,
-      color: "#69B3C7",
-      fontFamily: "Lora",
-      marginBottom: 16
+        flexGrow: 1,
+        color: "#69B3C7",
+        fontFamily: "Lora",
+        marginBottom: 16
     },
     textbox: {
         fontFamily: "Roboto",
@@ -43,7 +45,11 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "space-between",
         alignItems: "space-between",
     }
-  }));
+}));
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 export default function Upload(props) {
     const {setState} = props;
@@ -54,8 +60,23 @@ export default function Upload(props) {
         task_id: null, interval_ref: null,
         status: null
     });
+    const [alert, setAlert] = useState({
+        open: false, message: null, severity: null
+    })
     let pendingRef = useRef();
     pendingRef.current = pendingState;
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setAlert((prevState) => {
+            return {
+                ...prevState,
+                open: false
+            }
+        })
+    }
 
     const handleUpload = ({target}) => {
         const fileReader = new FileReader();
@@ -113,6 +134,10 @@ export default function Upload(props) {
                 setPendingState({
                     task_id: null, interval_ref: null, status: null
                 })
+                setAlert({
+                    severity: "success", open: true,
+                    message: "Inference was successful!"
+                });
                 setState((prevState) => {
                     return {
                         ...prevState,
@@ -127,6 +152,10 @@ export default function Upload(props) {
             setPendingState({
                 task_id: null, interval_ref: null, status: null
             })
+            setAlert({
+                severity: "error", open: true,
+                message: "There was an error with inference. Try again."
+            });
         });
     }
 
@@ -158,7 +187,10 @@ export default function Upload(props) {
                         justifyContent: "space-between",
                         alignItems: "center"
                     }}>
-                        <div>
+                        <div style={{
+                            display: "flex", flexDirection: "column",
+                            justifyContent: "center", alignItems: "center"
+                        }}>
                             <Typography variant="h5" style={{
                                 color: "#69B3C7", marginBottom: 8
                             }}>
@@ -289,6 +321,14 @@ export default function Upload(props) {
                     }
                 </Grid>
             </Grid>
+
+            <Snackbar open={alert.open} autoHideDuration={6000} onClose={
+                handleClose
+            }>
+                <Alert onClose={handleClose} severity={alert.severity}>
+                    {alert.message}
+                </Alert>
+            </Snackbar>
         </div>
       );
 }

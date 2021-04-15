@@ -11,7 +11,9 @@ export default function Canvass(props) {
     };
   
     useEffect(() => {
+        console.log("called");
         ctx.current = canvasRef.current.getContext('2d')
+        canvasRef.current.width = canvasRef.current.width;
         const backgroundImage = new window.Image()
         backgroundImage.src = props.src
 
@@ -25,7 +27,8 @@ export default function Canvass(props) {
             tempCanvas.height = height;
             tempCanvas.getContext('2d').drawImage(backgroundImage, 0, 0);
             
-            const scale = 0.5;
+            let scale = props.zoomScale ? props.zoomScale : 0.5;
+            // scale = scale && scale < 0.3 ? 0.3 : scale;
             ctx.current.width = width*scale;
             ctx.current.height = height*scale;
             ctx.current.drawImage(
@@ -49,11 +52,21 @@ export default function Canvass(props) {
             // ctx.current.wdith = backgroundImage.width * 0.1;
             // ctx.current.height = backgroundImage.height * 0.1;
         }
-    }, [props.src, props.detections, props.hiddenDiseases]);
+    }, [props.src, props.detections, props.hiddenDiseases, props.zoomScale]);
+
+    if (props.zoomScale === null) {
+        return (
+            <div>
+                <canvas ref={canvasRef} width="512" height="512"/>
+            </div>
+        )
+    }
 
     return (
-      <React.Fragment>
-        <canvas ref={canvasRef} width="512" height="512"/>
-      </React.Fragment>
+      <div style={{
+          marginTop: 1000, marginBottom: 100, marginLeft: 1000
+        }}>
+        <canvas ref={canvasRef} width="1024" height="1024"/>
+      </div>
     );
   }

@@ -4,10 +4,14 @@ import { makeStyles } from '@material-ui/core/styles';
 // Dashboard Imports
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Fab from '@material-ui/core/Fab';
+import ZoomInIcon from '@material-ui/icons/ZoomIn';
+import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 
 // Helper Blocks
 import Probabilities from './Probabilities';
 import Detections from './Detections';
+import Summaries from './Summaries';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,6 +55,11 @@ const useStyles = makeStyles((theme) => ({
   gridItem: {
     height: "50vh",
     minHeight: "500px"
+  },
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
   }
 }));
 
@@ -71,9 +80,16 @@ export default function Output(props) {
                  setOutputViewState={setOutputViewState}/>
             </Paper>
             </Grid>
+
             <Grid item xs={12} sm={12} md={7} lg={8} className={classes.gridItem}>
             <Paper className={classes.paper}>
                 <Detections output={output} outputViewState={outputViewState}/>
+            </Paper>
+            </Grid>
+            
+            <Grid item xs={12} className={classes.gridItem}>
+            <Paper className={classes.paper}>
+                <Summaries output={output} outputViewState={outputViewState}/>
             </Paper>
             </Grid>
         </Grid>
