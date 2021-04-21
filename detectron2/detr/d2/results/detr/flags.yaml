@@ -1,0 +1,23 @@
+aug_kwargs:
+  HorizontalFlip:
+    p: 0.5
+  RandomBrightnessContrast:
+    p: 0.5
+  ShiftScaleRotate:
+    p: 0.5
+    rotate_limit: 10
+    scale_limit: 0.15
+base_lr: 0.001
+debug: false
+eval_period: 1000
+imgdir_name: pngs_512
+ims_per_batch: 4
+iter: 30000
+lr_scheduler_name: WarmupCosineLR
+num_workers: 4
+outdir: results/detr
+roi_batch_size_per_image: 512
+seed: 111
+split_mode: valid20
+train_data_type: original
+use_class14: false
