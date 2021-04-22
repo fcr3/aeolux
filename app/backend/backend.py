@@ -100,6 +100,7 @@ def classification(self, data_list):
 def object_detection(self, data_list):
     output = []
 
+    print(f'Conducting Inference. CUDA: {tf.test.is_gpu_available()}')
     for data in data_list:
         uri = data['fileData']
 

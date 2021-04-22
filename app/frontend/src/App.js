@@ -93,7 +93,7 @@ export default function App() {
 
       {
         appState.showOutput1 ? 
-        (<ClfBlock output={
+        (<ClfBlock setState={setAppState} output={
           appState.output1 ? appState.output1 : null}/>) 
         : 
         null

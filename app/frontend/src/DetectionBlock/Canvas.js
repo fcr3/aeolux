@@ -11,7 +11,6 @@ export default function Canvass(props) {
     };
   
     useEffect(() => {
-        console.log("called");
         ctx.current = canvasRef.current.getContext('2d')
         canvasRef.current.width = canvasRef.current.width;
         const backgroundImage = new window.Image()

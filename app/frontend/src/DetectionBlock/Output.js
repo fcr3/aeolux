@@ -4,9 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 // Dashboard Imports
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Fab from '@material-ui/core/Fab';
-import ZoomInIcon from '@material-ui/icons/ZoomIn';
-import ZoomOutIcon from '@material-ui/icons/ZoomOut';
+import DetectGraphs from './DetectGraphs';
+import Typography from '@material-ui/core/Typography';
 
 // Helper Blocks
 import Probabilities from './Probabilities';
@@ -74,6 +73,20 @@ export default function Output(props) {
   return (
     <div className={classes.output}>
         <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Paper style={{
+                padding: 16
+              }}>
+                <Typography variant="h6" style={{
+                    color: "#69B3C7", marginBottom: 16,
+                    borderBottom: "solid #69B3C7",
+                    paddingBottom: 8
+                }}>
+                    Stage Two: Detection Results
+                </Typography>
+              </Paper> 
+            </Grid>
+
             <Grid item xs={12} sm={12} md={5} lg={4} className={classes.gridItem}>
             <Paper className={classes.paper}>
                 <Probabilities output={output} outputViewState={outputViewState}
@@ -86,10 +99,16 @@ export default function Output(props) {
                 <Detections output={output} outputViewState={outputViewState}/>
             </Paper>
             </Grid>
-            
-            <Grid item xs={12} className={classes.gridItem}>
+
+            <Grid item xs={12} sm={12} md={8} className={classes.gridItem}>
             <Paper className={classes.paper}>
-                <Summaries output={output} outputViewState={outputViewState}/>
+                <DetectGraphs output={output} />
+            </Paper>
+            </Grid>
+            
+            <Grid item xs={12} sm={12} md={4} className={classes.gridItem}>
+            <Paper className={classes.paper}>
+                <Summaries output={output} />
             </Paper>
             </Grid>
         </Grid>

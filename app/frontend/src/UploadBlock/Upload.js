@@ -178,7 +178,7 @@ export default function Upload(props) {
             <Grid container spacing={6} style={{
                 height: "calc(50vh - 40px)",
                 minHeight: "450px"
-            }}>
+            }}> 
                 <Grid item xs={3}>
                     <div style={{
                         height: "100%",
