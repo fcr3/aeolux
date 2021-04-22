@@ -28,6 +28,7 @@ from detectron2.evaluation.fast_eval_api import COCOeval_opt
 from detectron2.structures import Boxes, BoxMode, pairwise_iou
 from detectron2.utils.file_io import PathManager
 from detectron2.utils.logger import create_small_table
+from detectron2.checkpoint import DetectionCheckpointer
 
 # from augments import *
 
@@ -184,8 +185,9 @@ class VinbigdataEvaluator(DatasetEvaluator):
             self._tasks = tasks
 
         self._cpu_device = torch.device("cpu")
-
+        self._ds_name = dataset_name
         self._metadata = MetadataCatalog.get(dataset_name)
+        self._best_ap = -1
         if not hasattr(self._metadata, "json_file"):
             self._logger.info(
                 f"'{dataset_name}' is not registered by `register_coco_instances`."
@@ -333,6 +335,26 @@ class VinbigdataEvaluator(DatasetEvaluator):
                 coco_eval, task, class_names=self._metadata.get("thing_classes")
             )
             self._results[task] = res
+
+        currAP = self._results['bbox']['AP']
+        print(f"Previous best={self._best_ap:.3f} -> Curr AP={currAP:.3f}")
+        if self._results['bbox']['AP'] >= self._best_ap:
+            print('Saving best AP')
+            # self._best_ap = self._results['bbox']['AP']
+            # base_path = "/root/aeolux2/detectron2/detr/d2/"
+            # checkpoint_path = os.path.join(base_path, 'checkpoints')
+            # checkpoint_path = os.path.join(checkpoint_path, 'detr')
+            
+            # if not os.path.isdir(checkpoint_path):
+            #     os.makedirs(checkpoint_path)
+            
+            # model = self._model
+            # checkpointer = DetectionCheckpointer(model, save_dir=checkpoint_path)
+
+            # curr_iter = self.trainer.iter
+            # name = f'{self._ds_name}_iter={curr_iter}_loss={mean_loss:.2f}'.replace(".", "-")
+            # checkpointer.save(name)
+        
 
     def _eval_box_proposals(self, predictions):
         """

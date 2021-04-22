@@ -51,6 +51,9 @@ class LossEvalHook(HookBase):
                     ),
                     n=5,
                 )
+
+            print(inputs)
+
             loss_batch = self._get_loss(inputs)
             losses.append(loss_batch)
         mean_loss = np.mean(losses)

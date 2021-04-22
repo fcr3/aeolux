@@ -177,10 +177,15 @@ class Detr(nn.Module):
         output = self.detr(images)
 
         if self.training:
+            
             for x in batched_inputs:
                 if 'instances' not in x:
                     print(batched_inputs)
                     assert False, "Didn't find instance"
+                # else:
+                #     print(batched_inputs)
+                #     print('found instance')
+                #     break
 
             gt_instances = [x["instances"].to(self.device) for x in batched_inputs]
 

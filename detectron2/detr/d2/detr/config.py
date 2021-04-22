@@ -15,7 +15,22 @@ def add_detr_config(cfg):
     cfg.MODEL.DETR.FROZEN_WEIGHTS = ''
     
     # For EvalLossHook
-    cfg.TEST.EVAL_PERIOD = 1000
+    cfg.TEST.EVAL_PERIOD = 100
+
+    # Other Augmentations
+    # cfg.aug_kwargs = CN({
+    #     "HorizontalFlip": {
+    #         "p": 0.5
+    #     },
+    #     "ShiftScaleRotate": {
+    #         "scale_limit": 0.15, 
+    #         "rotate_limit": 10, 
+    #         "p": 0.5
+    #     },
+    #     "RandomBrightnessContrast": {
+    #         "p": 0.5
+    #     }
+    # })
 
     # LOSS
     cfg.MODEL.DETR.GIOU_WEIGHT = 2.0

@@ -16,7 +16,7 @@ DATASETS:
   TRAIN: ("vinbigdata_train",)
   TEST: ("vinbigdata_valid", "vinbigdata_test")
 SOLVER:
-  IMS_PER_BATCH: 8
+  IMS_PER_BATCH: 2
   BASE_LR: 0.0001
   STEPS: (30000,)
   MAX_ITER: 50000
@@ -38,7 +38,7 @@ INPUT:
     SIZE: (384, 600)
   FORMAT: "RGB"
 TEST:
-  EVAL_PERIOD: 1000
+  EVAL_PERIOD: 100
 DATALOADER:
   FILTER_EMPTY_ANNOTATIONS: False
   NUM_WORKERS: 4
