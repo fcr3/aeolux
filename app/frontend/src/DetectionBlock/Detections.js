@@ -93,7 +93,7 @@ export default function Detections(props) {
                         display: 'flex', flexDirection: 'column',
                         justifyContent: 'center', alignItems: 'center',
                         overflow: "auto", maxHeight: "100%",
-                        width: "90%"
+                        width: "85%"
                     }}>
                         <Canvas src={specificOutput['fileData']} 
                          detections={specificOutput['detections']}

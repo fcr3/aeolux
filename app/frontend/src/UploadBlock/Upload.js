@@ -141,8 +141,8 @@ export default function Upload(props) {
                 setState((prevState) => {
                     return {
                         ...prevState,
-                        output: res.data.result_info,
-                        showOutput: true
+                        output1: res.data.result_info,
+                        showOutput1: true
                     }
                 });
             }
@@ -160,7 +160,7 @@ export default function Upload(props) {
     }
 
     const handlePending = () => {
-        axios.post(urls.base + '/detect', {data: uploadedData}, {
+        axios.post(urls.base + '/classify', {data: uploadedData}, {
             headers: {'Content-Type': 'application/json'},
             withCredentials: true
         }).then((res) => {

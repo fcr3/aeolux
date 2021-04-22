@@ -1,4 +1,4 @@
-version: '3.2'
+version: '2.3'
 
 services:
   redis:
@@ -20,6 +20,9 @@ services:
     build:
       context: $PWD/backend
     command: celery -A "backend.celery" worker -l info
+    environment:
+      - LC_ALL=C.UTF-8
+      - LANG=C.UTF-8
     links:
       - redis
     volumes:
@@ -28,13 +31,16 @@ services:
       - aeolux
     depends_on:
       - redis
-
+    runtime: nvidia
 
   backend:
     image: aeolux/backend:main
     container_name: backend1
     build: $PWD/backend
     command: python3 backend.py runserver 0.0.0.0:3001
+    environment:
+      - LC_ALL=C.UTF-8
+      - LANG=C.UTF-8
     links:
       - redis
     volumes:

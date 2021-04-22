@@ -3,9 +3,11 @@ from flask_cors import CORS, cross_origin
 from celery import Celery
 import numpy as np
 import base64
-from PIL import Image
+from PIL import Image, ImageOps
 import io
 import tensorflow as tf
+import torchxrayvision as xrv
+import torch
 
 # Model Paths:
 model_paths = {
@@ -14,9 +16,15 @@ model_paths = {
 }
 
 # Inference Helper Functions
-def load_image_into_numpy_array(encoded_data):
+def load_image_into_numpy_array(encoded_data, gray=False):
     decoded_data = base64.b64decode(encoded_data)
     img = Image.open(io.BytesIO(decoded_data))
+
+    if gray:
+        img = ImageOps.grayscale(img)
+        rgbimg = img.resize((224, 224))
+        return np.array(rgbimg), rgbimg
+
     rgbimg = Image.new("RGB", img.size)
     rgbimg.paste(img)
     return np.array(rgbimg), rgbimg
@@ -52,6 +60,41 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
     response.headers.add('Access-Control-Allow-Credentials', 'true')
     return response
+
+@celery.task(bind=True)
+def classification(self, data_list):
+    batch_input = []
+    for data in data_list:
+        uri = data['fileData']
+        encoded_data = uri.split(',')[1]
+        sample, _ = load_image_into_numpy_array(encoded_data, gray=True)
+        batch_input.append(sample[np.newaxis, :, :])
+
+    batch_input = np.array(batch_input)
+    batch_tensor = torch.from_numpy(batch_input)
+
+    # if len(batch_tensor.shape) == 3:
+    #     batch_tensor = batch_tensor.unsqueeze(0)
+
+    print(f'Conducting inference. CUDA: {torch.cuda.is_available()}')
+    model = xrv.models.DenseNet(weights="all")
+    outputs = model(batch_tensor.float()).detach().cpu().numpy()
+    print(outputs)
+
+    output_list = []
+    for i in range(outputs.shape[0]):
+        output = outputs[i]
+        output = {k: float(v) for k,v in zip(model.pathologies, output)}
+        output_list.append({
+            'fileName': data_list[i]['fileName'],
+            'fileData': data_list[i]['fileData'],
+            'probabilities': output
+        })
+
+    return {
+        'status': 'completed',
+        'result_info': output_list
+    }
 
 @celery.task(bind=True)
 def object_detection(self, data_list):
@@ -117,6 +160,13 @@ def detect():
     data = req_json['data']
 
     task = object_detection.apply_async(args=[data])
+    return jsonify({'task_id': task.id}), 202
+
+@app.route('/classify', methods=['POST'])
+def classify():
+    req_json = request.get_json()
+    data = req_json['data']
+    task = classification.apply_async(args=[data])
     return jsonify({'task_id': task.id}), 202
 
 @app.route('/status/<task_id>', methods=['GET'])

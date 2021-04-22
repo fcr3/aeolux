@@ -12,7 +12,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import UploadBlock from './UploadBlock/Upload';
-import OutputBlock from './OutputBlock/Output';
+import OutputBlock from './DetectionBlock/Output';
+import ClfBlock from './ClassificationBlock/Classification';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const classes = useStyles();
   const [appState, setAppState] = useState({
-    showOutput: false
+    showOutput1: false, showOutput2: false
   });
 
   return (
@@ -91,9 +92,17 @@ export default function App() {
       </div>
 
       {
-        appState.showOutput ? 
+        appState.showOutput1 ? 
+        (<ClfBlock output={
+          appState.output1 ? appState.output1 : null}/>) 
+        : 
+        null
+      }
+
+      {
+        appState.showOutput2 ? 
         (<OutputBlock output={
-          appState.output ? appState.output : null}/>) 
+          appState.output2 ? appState.output2 : null}/>) 
         : 
         null
       }
