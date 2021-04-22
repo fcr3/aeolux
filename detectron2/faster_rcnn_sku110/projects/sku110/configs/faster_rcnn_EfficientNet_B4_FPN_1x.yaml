@@ -1,0 +1,18 @@
+_BASE_: "Base-RCNN-EfficientNet-FPN.yaml"
+MODEL:
+  WEIGHTS: "https://www.dropbox.com/s/lf8j8vlsdmir73s/efficientnet-b4-95c82349.pth?dl=1"
+  MASK_ON: False
+  EFFICIENTNET:
+    NAME: "efficientnet-b4" # efficientnet_b1, efficientnet_2,  ..., efficientnet_b7
+  RESNETS:
+    DEPTH: 50
+DATALOADER:
+  # proposals are part of the dataset_dicts, and take a lot of RAM
+  NUM_WORKERS: 12
+SOLVER:
+  IMS_PER_BATCH: 8
+  BASE_LR: 0.01
+  LR_SCHEDULER_NAME: "WarmupCosineLR"
+TEST:
+  EVAL_PERIOD: 5000
+OUTPUT_DIR: "checkpoints/FRCN-EfficientNet-B4-FPN-1x"
