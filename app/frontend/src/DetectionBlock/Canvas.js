@@ -5,9 +5,20 @@ export default function Canvass(props) {
     const ctx = useRef();
 
     const diseaseColorMap = {
-        1: '#E8BBB0',
-        2: '#6BD9BF',
-        3: '#9FCBFF'
+        'Atelectasis': '#E8BBB0',
+        'Cardiomegaly': '#6BD9BF',
+        'Effusion': '#9FCBFF',
+        'Infiltration': '#8A1C7C',
+        'Nodule/mass': '#2A1E5C',
+        'Opacity': '#78586F',
+        'ILD': '#773344',
+        'Pneumothorax': '#A53F2B',
+        'Enlargement': '#385F71',
+        'Calcification': '#2B4162',
+        'Consolidation': '#2C6E49',
+        'Lesion': '#7A6563',
+        'Thickening': '#D81159',
+        'Fibrosis': '#330C2F'
     };
   
     useEffect(() => {
@@ -44,7 +55,7 @@ export default function Canvass(props) {
                 for (const {x, y, w, h, p} of v) {
                     ctx.current.fillStyle = "white";
                     ctx.current.font = "bold 12px Arial";
-                    ctx.current.fillText(`P=${p*100}%`, x*scale, (y - 8)*scale);
+                    ctx.current.fillText(`P=${(p*100).toFixed(2)}%`, x*scale, (y - 8)*scale);
                     ctx.current.strokeRect(x*scale, y*scale, w*scale, h*scale);
                 }
             }

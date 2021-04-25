@@ -8,11 +8,13 @@ import io
 import tensorflow as tf
 import torchxrayvision as xrv
 import torch
+import re
 
 # Model Paths:
 model_paths = {
-    'mobilenet_v2': './tf_obj_models/ssd_mobilenet_v2/saved_model/',
-    'resnet50': './tf_obj_models/ssd_resnet_50_v1_fpn/saved/saved_model'
+    'mobilenet_v2': './tf_obj_models/ssd_mobilenetv2_vbd_mb/saved_model',
+    'resnet50': './tf_obj_models/ssd_resnet50_vbd_mb/saved_model',
+    'efficientdet_d1': './tf_obj_models/efficientdetd1_vbd_mb/saved_model'
 }
 
 # Inference Helper Functions
@@ -31,16 +33,13 @@ def load_image_into_numpy_array(encoded_data, gray=False):
 
 def conduct_inference(i, model):
     input_tensor = tf.convert_to_tensor(i)
-    input_tensor = input_tensor[tf.newaxis, :]
-    
     detections = model(input_tensor)
-    
-    num_detections = int(detections.pop('num_detections'))
-    detections = {key: value[0, :num_detections].numpy()
-                   for key, value in detections.items()}
+    num_detections = detections.pop('num_detections').numpy()
+    detections = {key: value.numpy()
+                  for key, value in detections.items()
+                  if key != 'num_detections'}
     detections['num_detections'] = num_detections
     detections['detection_classes'] = detections['detection_classes'].astype(np.int64)
-    
     return detections
 
 # Backend Initialization
@@ -100,29 +99,54 @@ def classification(self, data_list):
 def object_detection(self, data_list):
     output = []
 
-    print(f'Conducting Inference. CUDA: {tf.test.is_gpu_available()}')
+    label_map = {
+        1: 'Atelectasis',
+        2: 'Cardiomegaly',
+        3: 'Effusion',
+        4: 'Infiltration',
+        5: 'Nodule/mass',
+        6: 'Opacity',
+        7: 'ILD',
+        8: 'Pneumothorax',
+        9: 'Enlargement',
+        10: 'Calcification',
+        11: 'Consolidation',
+        12: 'Lesion',
+        13: 'Thickening',
+        14: 'Fibrosis'
+    }
+
+    print(f'Making batch input')
+    batch_input = []
+    shape_array = []
     for data in data_list:
         uri = data['fileData']
-
-        # Pre processing base64 encoded picture
         encoded_data = uri.split(',')[1]
         sample, _ = load_image_into_numpy_array(encoded_data)
-        h, w, _ = sample.shape
+        batch_input.append(sample)
+        shape_array.append(sample.shape[:2])
+    batch_input = np.array(batch_input)
 
-        # Getting Model
-        model = tf.saved_model.load(model_paths['mobilenet_v2'])
+    print(f'Conducting Inference. CUDA: {tf.test.is_gpu_available()}')
+    model = tf.saved_model.load(model_paths['efficientdet_d1'])
+    sample_detections = conduct_inference(batch_input, model)
 
-        # Object Detection
-        sample_detections = conduct_inference(sample, model)
+    print('Constructing output')
+    output = []
+    for data_i, data in enumerate(data_list):
+        h, w = shape_array[data_i]
+        detection_boxes = sample_detections['detection_boxes'][data_i]
+        detection_scores = sample_detections['detection_scores'][data_i]
+        detection_classes = sample_detections['detection_classes'][data_i]
 
         # Adjust Boxes to (xmin, ymin, width, height)
-        # Take Detections Above 70%
+        # Take Detections Above 50%
         processed_detections = {}
-        for i, box in enumerate(sample_detections['detection_boxes']):
+        for i, box in enumerate(detection_boxes):
             ymin, xmin, ymax, xmax = box
             ymin, xmin, ymax, xmax = ymin * h, xmin * w, ymax * h, xmax * w
-            score = sample_detections['detection_scores'][i]
-            pred_class = int(sample_detections['detection_classes'][i])
+            score = detection_scores[i]
+            pred_class = int(detection_classes[i])
             detection = {
                 'x': int(xmin), 
                 'y': int(ymin), 
@@ -131,9 +155,10 @@ def object_detection(self, data_list):
                 'p': float(score)
             }
 
-            if detection['p'] < 0.7 or pred_class == 0:
+            if detection['p'] < 0.5 or pred_class == 0:
                 continue
 
+            pred_class = label_map[pred_class]
             if pred_class not in processed_detections:
                 processed_detections[pred_class] = []
             processed_detections[pred_class].append(detection)

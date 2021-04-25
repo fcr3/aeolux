@@ -4,5 +4,5 @@ Pillow
 redis
 celery
 numpy
-tensorflow
+tensorflow-gpu
 torchxrayvision

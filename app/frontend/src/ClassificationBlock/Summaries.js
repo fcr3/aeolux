@@ -18,12 +18,6 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 
-
-const diseaseMap = {
-    "0": "None",
-    "1": "Pneumonia"
-}
-
 export default function Summaries(props) {
     const classes = useStyles();
     const {output, setViewState} = props;

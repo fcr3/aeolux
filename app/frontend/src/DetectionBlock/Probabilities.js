@@ -55,9 +55,20 @@ export default function Probabilities(props) {
     const probabilities = output;
 
     const diseaseColorMap = {
-        1: '#E8BBB0',
-        2: '#6BD9BF',
-        3: '#9FCBFF'
+        'Atelectasis': '#E8BBB0',
+        'Cardiomegaly': '#6BD9BF',
+        'Effusion': '#9FCBFF',
+        'Infiltration': '#8A1C7C',
+        'Nodule/mass': '#2A1E5C',
+        'Opacity': '#78586F',
+        'ILD': '#773344',
+        'Pneumothorax': '#A53F2B',
+        'Enlargement': '#385F71',
+        'Calcification': '#2B4162',
+        'Consolidation': '#2C6E49',
+        'Lesion': '#7A6563',
+        'Thickening': '#D81159',
+        'Fibrosis': '#330C2F'
     };
 
     return (
@@ -155,7 +166,7 @@ export default function Probabilities(props) {
                                                     v.map((vi, j) => {
                                                         return (
                                                             <li key={j} style={{textAlign: 'start', marginBottom: 8}}>
-                                                                {`Confidence: ${vi.p}`}<br/>
+                                                                {`Confidence: ${(vi.p).toFixed(2)}`}<br/>
                                                                 {`Bbox: x=${vi.x}, y=${vi.y}, w=${vi.w}, h=${vi.h}`}
                                                             </li>
                                                         )
