@@ -1,0 +1,31 @@
+# COCO 2017 dataset http://cocodataset.org - first 128 training images
+# Train command: python train.py --data coco128.yaml
+# Default dataset location is next to YOLOv5:
+#   /parent_folder
+#     /coco128
+#     /yolov5
+
+
+# download command/URL (optional)
+train: ../vbd_vol/pngs_512/yolov5/images/TRAINING/
+# val: ../vbd_vol/pngs_512/yolov5/images/VALIDATION/
+val: ../vbd_vol/pngs_512/yolov5/images/TEST/
+
+# number of classes
+nc: 14
+
+# class names
+names: ['Aortic enlargement',
+        'Atelectasis',
+        'Calcification',
+        'Cardiomegaly',
+        'Consolidation',
+        'ILD',
+        'Infiltration',
+        'Lung Opacity',
+        'Nodule/Mass',
+        'Other lesion',
+        'Pleural effusion',
+        'Pleural thickening',
+        'Pneumothorax',
+        'Pulmonary fibrosis']
