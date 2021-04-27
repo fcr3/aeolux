@@ -21,12 +21,12 @@ import torch
 
 import detectron2.utils.comm as comm
 from d2.detr import DetrDatasetMapper, add_detr_config
-from detectron2.checkpoint import DetectionCheckpointer
+from detectron2.checkpoint import DetectionCheckpointer, PeriodicCheckpointer
 from detectron2.config import get_cfg
 from detectron2.data import MetadataCatalog, build_detection_train_loader
 from detectron2.engine import DefaultTrainer, default_argument_parser, default_setup, launch
 from detectron2.evaluation import COCOEvaluator, verify_results
-
+from detectron2.data import DatasetCatalog
 from detectron2.solver.build import maybe_add_gradient_clipping
 
 from preprocessing import register_data
@@ -112,15 +112,29 @@ class Trainer(DefaultTrainer):
             optimizer = maybe_add_gradient_clipping(cfg, optimizer)
         return optimizer
     
+    # @classmethod
+    # def build_test_loader(cls, cfg, dataset_name):
+    #     return build_detection_train_loader(
+    #         cfg, 
+    #         dataset=DatasetCatalog.get(dataset_name), 
+    #         mapper=DetrDatasetMapper(cfg, True)
+    #     )
+
     def build_hooks(self):
         hooks = super(Trainer, self).build_hooks()
         cfg = self.cfg
-        loss_eval_hook = LossEvalHook(
-            cfg.TEST.EVAL_PERIOD,
-            self.model,
-            Trainer.build_test_loader(cfg, cfg.DATASETS.TEST[0]),
+        # loss_eval_hook = LossEvalHook(
+        #     cfg.TEST.EVAL_PERIOD,
+        #     self.model,
+        #     Trainer.build_test_loader(cfg, cfg.DATASETS.TEST[0]),
+        # )
+
+        print(self.checkpointer)
+        per_check_hook = PeriodicCheckpointer(
+            self.checkpointer, cfg.TEST.EVAL_PERIOD
         )
-        hooks.insert(-1, loss_eval_hook)
+
+        hooks.insert(-1, per_check_hook)
         return hooks
 
 
@@ -168,4 +182,3 @@ if __name__ == "__main__":
         dist_url=args.dist_url,
         args=(args,),
     )
-
