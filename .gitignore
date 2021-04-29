@@ -3,5 +3,6 @@
 *.pb
 *ckpt*
 *checkpoint*
-*variables*
+*variables.data*
+*variables.index*
 *__pycache__*
