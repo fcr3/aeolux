@@ -1,0 +1,73 @@
+version: '2.3'
+
+services:
+  redis:
+    image: "redis:alpine"
+    container_name: redis1
+    command: redis-server
+    ports: 
+      - 6379:6379
+    volumes:
+      - $PWD/redis-data:/var/lib/redis
+      - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    networks:
+      - aeolux
+
+  worker:
+    image: aeolux/backend:main
+    build:
+      context: $PWD/backend
+    command: celery -A "backend.celery" worker -l info
+    environment:
+      - LC_ALL=C.UTF-8
+      - LANG=C.UTF-8
+    links:
+      - redis
+    volumes:
+      - $PWD/backend:/app
+    networks:
+      - aeolux
+    depends_on:
+      - redis
+    runtime: nvidia
+
+  backend:
+    image: aeolux/backend:main
+    container_name: backend1
+    build: $PWD/backend
+    command: python3 backend.py runserver 0.0.0.0:3001
+    environment:
+      - LC_ALL=C.UTF-8
+      - LANG=C.UTF-8
+    links:
+      - redis
+    volumes:
+      - $PWD/backend:/app
+    ports:
+      - 3001:3001
+    networks:
+      - aeolux
+    depends_on:
+      - redis
+
+  frontend:
+    image: aeolux/frontend:main
+    container_name: frontend1
+    build: $PWD/frontend
+    links:
+      - backend
+    volumes:
+      - $PWD/frontend:/src
+    ports:
+      - 3000:3000
+    environment:
+      - PORT=3000
+    depends_on:
+      - redis
+      - backend
+    
+networks:
+  aeolux:
+    driver: bridge

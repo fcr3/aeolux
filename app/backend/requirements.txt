@@ -1,0 +1,13 @@
+flask
+flask-cors
+Pillow
+pandas
+seaborn
+matplotlib
+redis
+celery
+numpy
+tensorflow-gpu
+torchxrayvision
+opencv-contrib-python
+PyYAML
