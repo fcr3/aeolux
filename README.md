@@ -1,6 +1,47 @@
 # AeoluX.ai
 
+## Table of Contents
+* [Overview](#Overview)
+* [Installation](#Installation)
+    * [Dockerized Installation](#Dockerized-Installation)
+    * [Manual Installation](#Manual-Installation)
+* [Running the Application](#Demo)
+    * [Dockerized Demo](#Dockerized-Demo)
+    * [Manual Demo](#Manual-Demo)
+* [Training and Testing](#Training-and-Testing)
+
+## <a name="Overview"></a>Overview
+
 This repository serves as the codebase for the Aeolux.ai project.
+
+## <a name="Installation"></a>Installation
+
+This section goes over the installation of Aeolux onto a local machine. The recommended way to install this application requires the use of Docker. However, if there is any issue with installing Docker, please follow the [Manual Installation](#Manual-Installation) directions.
+
+### <a name="Dockerized-Installation"></a>Dockerized Installation
+
+This subsection goes over how to install Aeolux.ai on your local machine using Docker. The directions are below.
+
+### <a name="Manual-Installation"></a>Manual Installation
+
+This subsection goes over how to install Aeolux.ai on your local machine using a more manual approach. The directions are below.
+
+## <a name="Demo"></a>Running the Application
+
+This section goes over how to run the Aeolux.ai application. The content below is split into two sections: [Dockerized Demo](#Dockerized-Demo) and [Manual Demo](#Manual-Demo). Please follow the appropriate section, depending on your chosen installation method.
+
+### <a name="Dockerized-Demo"></a>Dockerized Demo
+
+This subsection goes over how to install Aeolux.ai on your local machine using Docker. The directions are below.
+
+### <a name="Manual-Demo"></a>Manual Demo
+
+This subsection goes over how to install Aeolux.ai on your local machine using a more manual approach. The directions are below.
+
+## <a name="Training-and-Testing"></a>Training and Testing
+
+This repository serves as the codebase for the Aeolux.ai project.
+___________________________________________________________________________
 
 ## Getting Started
 
@@ -9,7 +50,9 @@ This repository serves as the codebase for the Aeolux.ai project.
 1. Clone the repository by entering in the terminal:
 ```
 $ git clone git@github.com:fcr3/aeolux.git
-or 
+
+- or - 
+
 $ git clone https://github.com/fcr3/aeolux.git
 ```
 
