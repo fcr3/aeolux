@@ -12,10 +12,10 @@ import re
 
 # Model Paths:
 model_paths = {
-    'mobilenet_v2': './tf_obj_models/ssd_mobilenetv2_vbd_mb/saved_model',
-    'resnet50': './tf_obj_models/ssd_resnet50_vbd_mb/saved_model',
-    'efficientdet_d1': './tf_obj_models/efficientdetd1_vbd_mb/saved_model',
-    'yolov5': './torch_models/yolov5/weights/best.pt'
+    'mobilenet_v2': './models/tf_obj_models/ssd_mobilenetv2_vbd_mb/saved_model',
+    'resnet50': './models/tf_obj_models/ssd_resnet50_vbd_mb/saved_model',
+    'efficientdet_d1': './models/tf_obj_models/efficientdetd1_vbd_mb/saved_model',
+    'yolov5': './models/torch_models/yolov5/weights/best.pt'
 }
 
 # Inference Helper Functions
