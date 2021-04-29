@@ -116,7 +116,7 @@ This subsubsection goes over how to set up the frontend. The directions are belo
 $ conda create --name aeolux-backend python=3.7
 $ conda activate aeolux-backend
 (aeolux-backend) $ cd app/backend/
-(aeolux-backend) $ pip install -r requirements.txt
+(aeolux-backend) $ pip install --no-cache-dir --force-reinstall -r requirements.txt
 ```
 
 2.2 Open a new terminal/command line window/tab and execute the following commands. The commands below are executed from the `app` folder in the terminal/command line. If you find that you are in the `app/backend` folder, navigate backwards to the `app` directory. The first command of the sequence should get you there.
@@ -128,7 +128,7 @@ $ ./redis-setup.sh
 
 2.3 Switch back to the terminal/command line window from step 2.1 and execute the following command. <b>Note</b> that you should be in the `app/backend` folder:
 ```
-(aeolux-backend) $  celery -A "backend.celery" worker -l info
+(aeolux-backend) $ celery -A "backend.celery" worker -l info
 ```
 
 2.4 Open a new terminal/command line window/tab and execute the following commands. The commands below are executed from the `app/backend` folder in the terminal/command line. Navigate there first if the termina/command line does not start at this path:
