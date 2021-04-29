@@ -3,3 +3,4 @@
 *.pb
 *ckpt*
 *checkpoint*
+*variables*
