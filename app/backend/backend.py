@@ -8,7 +8,7 @@ import io
 import tensorflow as tf
 import torchxrayvision as xrv
 import torch
-import re
+import os
 
 # Model Paths:
 model_paths = {
@@ -69,8 +69,11 @@ def conduct_inference_yolo(i, model):
 
 # Backend Initialization
 app = Flask(__name__)
-app.config['CELERY_BROKER_URL'] = 'redis://redis1:6379/0'
-app.config['CELERY_RESULT_BACKEND'] = 'redis://redis1:6379/0'
+# app.config['CELERY_BROKER_URL'] = 'redis://redis1:6379/0'
+# app.config['CELERY_RESULT_BACKEND'] = 'redis://redis1:6379/0'
+
+app.config['CELERY_BROKER_URL'] = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0')
+app.config['CELERY_RESULT_BACKEND'] = os.getenv('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
 
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)

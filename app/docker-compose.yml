@@ -23,6 +23,8 @@ services:
     environment:
       - LC_ALL=C.UTF-8
       - LANG=C.UTF-8
+      - CELERY_BROKER_URL=redis://redis1:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis1:6379/0
     links:
       - redis
     volumes:
@@ -41,6 +43,8 @@ services:
     environment:
       - LC_ALL=C.UTF-8
       - LANG=C.UTF-8
+      - CELERY_BROKER_URL=redis://redis1:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis1:6379/0
     links:
       - redis
     volumes:

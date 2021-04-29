@@ -9,5 +9,5 @@ celery
 numpy
 tensorflow
 torchxrayvision
-opencv-contrib-python
+opencv-python>=4.1.2
 PyYAML
