@@ -34,7 +34,7 @@ SSH Method:
 $ git clone git@github.com:fcr3/aeolux.git
 ```
 
-2. Execute the following commands. Optionally, you can create a small environment via `venv` or `conda` but it is not required. Also, pip might use your 2.x installation of Python. If it does (you can check by doing `which pip`), use `pip3` instead. <b>Note</b> that you should be in the root of the project directory.
+2. Execute the following commands. Optionally, you can create a small environment via `venv` or `conda` but it is not required. Also, pip might use your 2.x installation of Python. If it does (you can check by doing `which pip`), use `pip3` instead. <b>Note</b> that you should be in the root of the project directory. The first command of the sequence below should get you there.
 ```
 $ cd aeolux
 $ pip install gdown
@@ -119,13 +119,14 @@ $ conda activate aeolux-backend
 (aeolux-backend) $ pip install -r requirements.txt
 ```
 
-2.2 Open a new terminal/command line window/tab and execute the following commands. The commands below are executed from the `app/backend` folder in the terminal/command line. Navigate there first if the termina/command line does not start at this path:
+2.2 Open a new terminal/command line window/tab and execute the following commands. The commands below are executed from the `app` folder in the terminal/command line. If you find that you are in the `app/backend` folder, navigate backwards to the `app` directory. The first command of the sequence should get you there.
 ```
+$ cd ..
 $ chmod +x ./redis-setup.sh
 $ ./redis-setup.sh
 ```
 
-2.3 Switch back to the terminal/command line window from step 2.1 and execute the following command:
+2.3 Switch back to the terminal/command line window from step 2.1 and execute the following command. <b>Note</b> that you should be in the `app/backend` folder:
 ```
 (aeolux-backend) $  celery -A "backend.celery" worker -l info
 ```
