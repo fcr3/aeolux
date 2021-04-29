@@ -12,6 +12,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import diseaseColorMap from './DiseaseMap';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,23 +54,6 @@ export default function Probabilities(props) {
     const classes = useStyles();
     const {output, outputViewState, setOutputViewState} = props;
     const probabilities = output;
-
-    const diseaseColorMap = {
-        'Atelectasis': '#E8BBB0',
-        'Cardiomegaly': '#6BD9BF',
-        'Effusion': '#9FCBFF',
-        'Infiltration': '#8A1C7C',
-        'Nodule/mass': '#2A1E5C',
-        'Opacity': '#78586F',
-        'ILD': '#773344',
-        'Pneumothorax': '#A53F2B',
-        'Enlargement': '#385F71',
-        'Calcification': '#2B4162',
-        'Consolidation': '#2C6E49',
-        'Lesion': '#7A6563',
-        'Thickening': '#D81159',
-        'Fibrosis': '#330C2F'
-    };
 
     return (
         <div className={classes.root}>

@@ -9,3 +9,5 @@ celery
 numpy
 tensorflow-gpu
 torchxrayvision
+opencv-contrib-python
+PyYAML

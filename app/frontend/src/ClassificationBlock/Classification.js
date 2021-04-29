@@ -158,8 +158,12 @@ export default function Output(props) {
           if (res.data.state === 'FAILURE' || res.data.state === 'incomplete') {
               clearInterval(pendingState.interval_ref);
               setPendingState((prevState) => {
-                  return {...prevState, status: res.data.state}
+                  return {...prevState, status: null}
               })
+              setAlert({
+                severity: "error", open: true,
+                message: "Inference was unsuccessful. Try again."
+            });
               return;
           }
 

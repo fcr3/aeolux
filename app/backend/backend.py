@@ -49,16 +49,17 @@ def conduct_inference(i, model):
 
 def conduct_inference_yolo(i, model):
     out = model(i, size=512, augment=True)
+    label_map = out.names
     out = out.pandas().xyxyn
     detections = {
         'num_detections': [],
         'detection_classes': [],
         'detection_boxes': [],
         'detection_scores': [],
-        'label_map': out.names
+        'label_map': label_map
     }
     for oi in out:
-        detections['num_detections'] += [i.shape[0]]
+        detections['num_detections'] += [oi.shape[0]]
         detections['detection_classes'] += [oi['class'].values.tolist()]
         oi = oi[['ymin', 'xmin', 'ymax', 'xmax', 'confidence']]
         detections['detection_boxes'] += [oi.iloc[:, :4].values.tolist()]

@@ -3,7 +3,8 @@ FROM nvidia/cuda:11.0.3-cudnn8-devel-ubuntu18.04
 RUN apt-get -y update \
     && apt-get install -y software-properties-common \
     && apt-get -y update \
-    && add-apt-repository universe
+    && add-apt-repository universe \
+    && DEBIAN_FRONTEND="noninteractive" apt-get install -y python3-opencv
 RUN apt-get -y update
 RUN apt-get -y install python3
 RUN apt-get -y install python3-pip
