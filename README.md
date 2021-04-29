@@ -2,7 +2,7 @@
 
 ## Table of Contents
 * [Overview](#Overview)
-* [Installation](#Installation)
+* [Prerequisites](#Prerequisites)
     * [Dockerized Installation](#Dockerized-Installation)
     * [Manual Installation](#Manual-Installation)
 * [Running the Application](#Demo)
@@ -14,17 +14,30 @@
 
 This repository serves as the codebase for the Aeolux.ai project.
 
-## <a name="Installation"></a>Installation
+## <a name="Prerequisites"></a>Prerequisites
 
-This section goes over the installation of Aeolux onto a local machine. The recommended way to install this application requires the use of Docker. However, if there is any issue with installing Docker, please follow the [Manual Installation](#Manual-Installation) directions.
+This section goes over the installation of Aeolux onto a local machine. The recommended way to install this application requires the use of Docker. However, if there is any issue with installing Docker, please follow the [Manual Installation](#Manual-Installation) directions. Finally, in the terminal window/GitBash window/command line, please clone this project into a folder of your choosing. You can also do it manually via the GitHub UI. The command to clone is below:
+
+Usual Method:
+```
+$ git clone https://github.com/fcr3/aeolux.git
+```
+SSH Method:
+```
+$ git clone git@github.com:fcr3/aeolux.git
+```
 
 ### <a name="Dockerized-Installation"></a>Dockerized Installation
 
-This subsection goes over how to install Aeolux.ai on your local machine using Docker. The directions are below.
+This subsection introduces some links that you can follow to install the necessary prerequisites. As stated previously, the requirement of Docker is recommended, so please follow this [link](https://docs.docker.com/get-docker/) to install Docker on your local machine. 
 
 ### <a name="Manual-Installation"></a>Manual Installation
 
-This subsection goes over how to install Aeolux.ai on your local machine using a more manual approach. The directions are below.
+If you cannot install Docker on your machine, you need to install the following packages:
+- [Conda](https://docs.anaconda.com/anaconda/install/): Follow the links/directions in the provided [Conda](https://docs.anaconda.com/anaconda/install/) link to install the appropriate Anaconda/Miniconda environment manager. This will ease the installation/development process so you can manage conflicting Python dependencies.
+- [NodeJS](https://nodejs.org/en/download/): This requirement is necessary for running our React application. Additionally, [here (homebrew)](https://nodejs.dev/learn/how-to-install-nodejs) and [here (manual)](https://nodesource.com/blog/installing-nodejs-tutorial-mac-os-x/) are two MacOS installation guides, and [here](https://phoenixnap.com/kb/install-node-js-npm-on-windows) is a windows installation guide.
+
+A soft preqrequisite that will speed up the application is the installation of CUDA. However, the installation of CUDA is often unattainable for many machines due to the unavailability of an installed Nvidia GPU. Nonetheless, if you would like to install CUDA on your machine and you have one/many capable Nvidia GPU(s), please follow this [link](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html).
 
 ## <a name="Demo"></a>Running the Application
 
