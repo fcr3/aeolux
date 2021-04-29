@@ -34,14 +34,15 @@ SSH Method:
 $ git clone git@github.com:fcr3/aeolux.git
 ```
 
-2. Execute the following commands. Optionally, you can create a small environment via `venv` or `conda` but it is not required. Also, pip might use your 2.x installation of Python. If it does (you can check by doing `which pip`), use `pip3` instead.
+2. Execute the following commands. Optionally, you can create a small environment via `venv` or `conda` but it is not required. Also, pip might use your 2.x installation of Python. If it does (you can check by doing `which pip`), use `pip3` instead. <b>Note</b> that you should be in the root of the project directory.
 ```
+$ cd aeolux
 $ pip install gdown
 $ gdown --id 1sS2S-n__uL7uqll55sCKJvosxRHi858_
 $ mv aeolux_models.zip app/backend/.
 ```
 
-3. If you are working on a Linux machine, you can execute the following command
+3. If you are working on a Linux machine, you can execute the following command. <b>Note</b> that you should be in the root of the project directory.
 ```
 $ sudo apt-get install zip unzip
 $ cd app/backend/
