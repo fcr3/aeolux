@@ -113,7 +113,6 @@ This subsubsection goes over how to set up the frontend. The directions are belo
 
 2.1 Open a new terminal/command line window/tab and execute the following commands:
 ```
-$ sudo apt-get install python3-opencv
 $ conda create --name aeolux-backend python=3.7
 $ conda activate aeolux-backend
 (aeolux-backend) $ cd app/backend/
