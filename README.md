@@ -34,7 +34,7 @@ SSH Method:
 $ git clone git@github.com:fcr3/aeolux.git
 ```
 
-2. Execute the following commands. Optionally, you can create a small environment via `venv` or `conda` but it is not required.
+2. Execute the following commands. Optionally, you can create a small environment via `venv` or `conda` but it is not required. Also, pip might use your 2.x installation of Python. If it does (you can check by doing `which pip`), use `pip3` instead.
 ```
 $ pip install gdown
 $ gdown --id 1sS2S-n__uL7uqll55sCKJvosxRHi858_
@@ -47,7 +47,7 @@ $ sudo apt-get install zip unzip
 $ cd app/backend/
 $ unzip aeolux_models.zip
 ```
-If the `unzip` command does not work, you can also unzip the `.zip` file using MacOS or Windows UI. 
+If the `unzip` command does not work, you can also unzip the `.zip` file using MacOS or Windows UI. <b>Note</b> that the `aeolux_models.zip` will be located in `app/backend`.
 
 ### <a name="Dockerized-Installation"></a>Dockerized Installation
 
