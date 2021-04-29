@@ -1,6 +1,9 @@
 flask
 flask-cors
 Pillow
+pandas
+seaborn
+matplotlib
 redis
 celery
 numpy

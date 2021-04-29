@@ -14,11 +14,12 @@ import re
 model_paths = {
     'mobilenet_v2': './tf_obj_models/ssd_mobilenetv2_vbd_mb/saved_model',
     'resnet50': './tf_obj_models/ssd_resnet50_vbd_mb/saved_model',
-    'efficientdet_d1': './tf_obj_models/efficientdetd1_vbd_mb/saved_model'
+    'efficientdet_d1': './tf_obj_models/efficientdetd1_vbd_mb/saved_model',
+    'yolov5': './torch_models/yolov5/weights/best.pt'
 }
 
 # Inference Helper Functions
-def load_image_into_numpy_array(encoded_data, gray=False):
+def load_image_into_numpy_array(encoded_data, gray=False, yolo=False):
     decoded_data = base64.b64decode(encoded_data)
     img = Image.open(io.BytesIO(decoded_data))
 
@@ -29,6 +30,10 @@ def load_image_into_numpy_array(encoded_data, gray=False):
 
     rgbimg = Image.new("RGB", img.size)
     rgbimg.paste(img)
+
+    if yolo:
+        rgbimg = rgbimg.resize((512, 512))
+
     return np.array(rgbimg), rgbimg
 
 def conduct_inference(i, model):
@@ -40,6 +45,25 @@ def conduct_inference(i, model):
                   if key != 'num_detections'}
     detections['num_detections'] = num_detections
     detections['detection_classes'] = detections['detection_classes'].astype(np.int64)
+    return detections
+
+def conduct_inference_yolo(i, model):
+    out = model(i, size=512, augment=True)
+    out = out.pandas().xyxyn
+    detections = {
+        'num_detections': [],
+        'detection_classes': [],
+        'detection_boxes': [],
+        'detection_scores': [],
+        'label_map': out.names
+    }
+    for oi in out:
+        detections['num_detections'] += [i.shape[0]]
+        detections['detection_classes'] += [oi['class'].values.tolist()]
+        oi = oi[['ymin', 'xmin', 'ymax', 'xmax', 'confidence']]
+        detections['detection_boxes'] += [oi.iloc[:, :4].values.tolist()]
+        detections['detection_scores'] += [oi['confidence'].values.tolist()]
+
     return detections
 
 # Backend Initialization
@@ -93,6 +117,72 @@ def classification(self, data_list):
     return {
         'status': 'completed',
         'result_info': output_list
+    }
+
+@celery.task(bind=True)
+def object_detection_yolo(self, data_list):
+    output = []
+
+    print(f'Making batch input')
+    batch_input = []
+    shape_array = []
+    for data in data_list:
+        uri = data['fileData']
+        encoded_data = uri.split(',')[1]
+        sample, _ = load_image_into_numpy_array(encoded_data, yolo=True)
+        batch_input.append(sample)
+        shape_array.append(sample.shape[:2])
+
+    print(f'Conducting Inference. CUDA: {torch.cuda.is_available()}')
+    model = torch.hub.load(
+        'ultralytics/yolov5', 'custom', 
+        path_or_model=model_paths['yolov5'],
+    )
+    sample_detections = conduct_inference_yolo(batch_input, model)
+    label_map = sample_detections['label_map']
+
+    print('Constructing output')
+    output = []
+    for data_i, data in enumerate(data_list):
+        h, w = shape_array[data_i]
+        detection_boxes = sample_detections['detection_boxes'][data_i]
+        detection_scores = sample_detections['detection_scores'][data_i]
+        detection_classes = sample_detections['detection_classes'][data_i]
+
+        # Adjust Boxes to (xmin, ymin, width, height)
+        # Take Detections Above 50%
+        processed_detections = {}
+        for i, box in enumerate(detection_boxes):
+            ymin, xmin, ymax, xmax = box
+            ymin, xmin, ymax, xmax = ymin * h, xmin * w, ymax * h, xmax * w
+            score = detection_scores[i]
+            pred_class = int(detection_classes[i])
+            detection = {
+                'x': int(xmin), 
+                'y': int(ymin), 
+                'w': int(xmax - xmin), 
+                'h': int(ymax - ymin),
+                'p': float(score)
+            }
+
+            if detection['p'] < 0.5 or pred_class == 0:
+                continue
+
+            pred_class = label_map[pred_class]
+            if pred_class not in processed_detections:
+                processed_detections[pred_class] = []
+            processed_detections[pred_class].append(detection)
+
+        output_obj = {
+            'fileName': data['fileName'],
+            'fileData': uri,
+            'detections': processed_detections,
+        }
+        output.append(output_obj)
+
+    return {
+        'status': 'completed',
+        'result_info': output
     }
 
 @celery.task(bind=True)
@@ -185,7 +275,8 @@ def detect():
     req_json = request.get_json()
     data = req_json['data']
 
-    task = object_detection.apply_async(args=[data])
+    # task = object_detection.apply_async(args=[data])
+    task = object_detection_yolo.apply_async(args=[data])
     return jsonify({'task_id': task.id}), 202
 
 @app.route('/classify', methods=['POST'])
