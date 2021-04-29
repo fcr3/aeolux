@@ -7,7 +7,7 @@ matplotlib
 redis
 celery
 numpy
-tensorflow-gpu
+tensorflow
 torchxrayvision
 opencv-contrib-python
 PyYAML
