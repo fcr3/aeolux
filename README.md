@@ -11,10 +11,47 @@
     * [Dockerized Demo](#Dockerized-Demo)
     * [Manual Demo](#Manual-Demo)
 * [Training and Testing](#Training-and-Testing)
+    * [Dockerized Training and Testing](#Docker-TT)
+    * [Manual Training and Testing](#Manual-TT)
 
 ## <a name="Overview"></a>Overview
 
 This repository serves as the codebase for the Aeolux.ai project.
+
+## <a name="Installation-Diagram"></a>Relevant-Section Diagram
+Below is a setup diagram to help ease the navigation of the README. The relevant sections will be in order from top to bottom and connected via edges:
+```
+------------
+| Overview |
+------------
+      |
+---------------
+|Prerequisites|
+---------------
+   |         \
+----------  -----------
+| Docker |  | Manual  |
+| Install|  | Install |
+----------  -----------
+   |         /
+---------------------------
+| Running the Application |
+---------------------------
+   |         \
+----------  -----------
+| Docker |  | Manual  |
+| Demo   |  | Demo    |
+----------  -----------
+  |          /
+------------------------
+| Training and Testing |
+------------------------
+  |          \
+----------  -----------
+| Docker |  | Manual  |
+| T & T  |  | T & T   |
+----------  -----------
+```
 
 ## <a name="Prerequisites"></a>Prerequisites
 
@@ -44,7 +81,6 @@ $ mv aeolux_models.zip app/backend/.
 
 3. If you are working on a Linux machine, you can execute the following command. <b>Note</b> that you should be in the root of the project directory.
 ```
-$ sudo apt-get install zip unzip
 $ cd app/backend/
 $ unzip aeolux_models.zip
 ```
@@ -99,7 +135,7 @@ This subsection goes over how to install Aeolux.ai on your local machine using a
 #### <a name="Frontend-Setup"></a>1. Frontend Setup
 This subsubsection goes over how to set up the frontend. The directions are below. <b>Note</b> that this section assumes a working installation of NodeJS. Please follow the directions [here](#Manual-Installation) to install NodeJS and other required dependencies for manual setup.
 
-1.1. Open a new terminal/command line window/tab and execute the following commands:
+1.1. Open a new terminal/command line window/tab and execute the following commands. <b>Note</b> that you should be in the root of the project directory:
 ```
 $ cd app/frontend
 $ npm install
@@ -131,7 +167,7 @@ $ ./redis-setup.sh
 (aeolux-backend) $ celery -A "backend.celery" worker -l info
 ```
 
-2.4 Open a new terminal/command line window/tab and execute the following commands. The commands below are executed from the `app/backend` folder in the terminal/command line. Navigate there first if the termina/command line does not start at this path:
+2.4 Open a new terminal/command line window/tab and execute the following commands. The commands below are executed from the `app/backend` folder in the terminal/command line. Navigate there first if the terminal/command line does not start at this path:
 ```
 $ conda activate aeolux-backend
 (aeolux-backend) $ python3 backend.py runserver 0.0.0.0:3001
