@@ -2,6 +2,7 @@
 
 ## Table of Contents
 * [Overview](#Overview)
+* [Section Diagram](#Section-Diagram)
 * [Prerequisites](#Prerequisites)
     * [General Installation](#General-Installation)
     * [Dockerized Installation](#Dockerized-Installation)
@@ -18,7 +19,7 @@
 
 This repository serves as the codebase for the Aeolux.ai project.
 
-## <a name="Installation-Diagram"></a>Relevant-Section Diagram
+## <a name="Section-Diagram"></a>Relevant-Section Diagram
 Below is a setup diagram to help ease the navigation of the README. The relevant sections will be in order from top to bottom and connected via edges:
 ```
 ------------
