@@ -20,7 +20,7 @@
 This repository serves as the codebase for the Aeolux.ai project.
 
 ## <a name="Section-Diagram"></a>Relevant-Section Diagram
-Below is a setup diagram to help ease the navigation of the README. The relevant sections will be in order from top to bottom and connected via edges:
+Below is a setup diagram to help ease the navigation of the README. The relevant sections will be in order from top to bottom and connected via edges. Indentations within the diagram represent subsections:
 ```
 ------------
 | Overview |
@@ -29,29 +29,34 @@ Below is a setup diagram to help ease the navigation of the README. The relevant
 ---------------
 |Prerequisites|
 ---------------
-   |         \
-----------  -----------
-| Docker |  | Manual  |
-| Install|  | Install |
-----------  -----------
-   |         /
+      |
+ ------------
+ | General  |
+ | Install  |
+ ------------
+    |        \
+ ----------  -----------
+ | Docker |  | Manual  |
+ | Install|  | Install |
+ ----------  -----------
+    |         /
 ---------------------------
 | Running the Application |
 ---------------------------
-   |         \
-----------  -----------
-| Docker |  | Manual  |
-| Demo   |  | Demo    |
-----------  -----------
-  |          /
+    |         \
+ ----------  -----------
+ | Docker |  | Manual  |
+ | Demo   |  | Demo    |
+ ----------  -----------
+   |          /
 ------------------------
 | Training and Testing |
 ------------------------
-  |          \
-----------  -----------
-| Docker |  | Manual  |
-| T & T  |  | T & T   |
-----------  -----------
+   |          \
+ ----------  -----------
+ | Docker |  | Manual  |
+ | T & T  |  | T & T   |
+ ----------  -----------
 ```
 
 ## <a name="Prerequisites"></a>Prerequisites
