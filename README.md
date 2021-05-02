@@ -30,33 +30,33 @@ Below is a setup diagram to help ease the navigation of the README. The relevant
 |Prerequisites|
 ---------------
       |
- ------------
- | General  |
- | Install  |
- ------------
-    |        \
- ----------  -----------
- | Docker |  | Manual  |
- | Install|  | Install |
- ----------  -----------
-    |         /
+   ------------
+   | General  |
+   | Install  |
+   ------------
+      |        \
+   ----------  -----------
+   | Docker |  | Manual  |
+   | Install|  | Install |
+   ----------  -----------
+      |        /
 ---------------------------
 | Running the Application |
 ---------------------------
-    |         \
- ----------  -----------
- | Docker |  | Manual  |
- | Demo   |  | Demo    |
- ----------  -----------
-   |          /
+      |        \
+   ----------  -----------
+   | Docker |  | Manual  |
+   | Demo   |  | Demo    |
+   ----------  -----------
+      |        /
 ------------------------
 | Training and Testing |
 ------------------------
-   |          \
- ----------  -----------
- | Docker |  | Manual  |
- | T & T  |  | T & T   |
- ----------  -----------
+      |        \
+   ----------  -----------
+   | Docker |  | Manual  |
+   | T & T  |  | T & T   |
+   ----------  -----------
 ```
 
 ## <a name="Prerequisites"></a>Prerequisites
