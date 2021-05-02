@@ -112,7 +112,7 @@ This section goes over how to run the Aeolux.ai application. The content below i
 
 ### <a name="Dockerized-Demo"></a>Dockerized Demo
 
-This subsection goes over how to install Aeolux.ai on your local machine using Docker. The directions are below.
+This subsection goes over how to install Aeolux.ai on your local machine using Docker. The directions are below. <b>Note</b> that this demo requires there to be at least 15 GB of free space on your hard drive.
 
 1. Navigate to the `app` directory located in the root of this project:
 ```
