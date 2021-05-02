@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useRef} from 'react'
+import React, {useEffect, useRef} from 'react'
 import diseaseColorMap from './DiseaseMap';
 
 export default function Canvass(props) {

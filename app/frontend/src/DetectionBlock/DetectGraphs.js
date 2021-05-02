@@ -6,14 +6,9 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import MuiAlert from '@material-ui/lab/Alert';
 
 // Helper Blocks
 import DetectGraph from './DetectGraph';
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DetectGraphs(props) {
-  const {output, setState} = props;
+  const {output} = props;
   const classes = useStyles();
   const [outputViewState, setOutputViewState] = useState({
     viewFileName: null, viewDisease: null, viewOriginal: false,
@@ -158,7 +153,6 @@ export default function DetectGraphs(props) {
                                 sorted_probs.map(([k, v], i) => {
                                     return (
                                         <div key={i} style={{
-                                            marginBottom: 8,
                                             display: 'flex',
                                             flexDirection: 'column',
                                             justifyContent: 'flex-start',

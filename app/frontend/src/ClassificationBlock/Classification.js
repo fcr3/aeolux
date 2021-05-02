@@ -297,7 +297,6 @@ export default function Output(props) {
                                 sorted_probs.map(([k, v], i) => {
                                     return (
                                         <div key={i} style={{
-                                            marginBottom: 8,
                                             display: 'flex',
                                             flexDirection: 'column',
                                             justifyContent: 'flex-start',
