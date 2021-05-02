@@ -141,6 +141,15 @@ Once the the third step is fully executed and the application is running, naviga
 $ docker-compose build <service_name>
 ```
 `service_name` refers to the name of one of the four services.
+- If you find yourself running out of hard drive space due to `<none>` tagged images (enter `docker images` into the terminal to see your images), then you can clean them by executing the following command:
+```
+$ docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+```
+If there are docker containers that are running or stopped, you must kill the running containers and remove them by doing:
+```
+$ docker rm <container_id>
+```
+Then run the `rmi` command above again to clean up the `<none>` tagged images. You should see a drastic increase in hard drive space.
 
 
 ### <a name="Manual-Demo"></a>Manual Demo
