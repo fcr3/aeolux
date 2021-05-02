@@ -51,16 +51,14 @@ export default function Detections(props) {
         open: false, message: null, severity: null
     })
     
-    let viewImage = null;
     let specificOutput = null;
-    const {viewFileName, viewDisease, viewOriginal} = outputViewState;
+    const {viewFileName} = outputViewState;
     if (outputViewState.viewFileName) {
         let filteredOutput = output.filter((val) => {
             return val['fileName'] === viewFileName;
         });
         if (filteredOutput.length === 1) {
             specificOutput = filteredOutput[0];
-            viewImage = specificOutput['fileData'];
         }
     }
 

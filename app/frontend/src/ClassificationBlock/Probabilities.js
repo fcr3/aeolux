@@ -2,11 +2,6 @@ import React, {useState} from 'react';
 // import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-// import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-// import ListIcon from '@material-ui/icons/List';
-// import DashboardIcon from '@material-ui/icons/Dashboard';
-// import Divider from '@material-ui/core/Divider';
 
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -51,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Probabilities(props) {
     const classes = useStyles();
-    const {output, outputViewState, setOutputViewState} = props;
+    const {output} = props;
     const [expandedViewState, setExpandedViewState] = useState('');
     const probabilities = output;
 
@@ -113,7 +108,6 @@ export default function Probabilities(props) {
                                     sorted_probs.map(([k, v], i) => {
                                         return (
                                             <div key={i} style={{
-                                                marginBottom: 8,
                                                 display: 'flex',
                                                 flexDirection: 'column',
                                                 justifyContent: 'flex-start',

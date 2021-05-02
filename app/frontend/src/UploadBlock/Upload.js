@@ -296,7 +296,7 @@ export default function Upload(props) {
                                                 File Name: {v['fileName']}<br/><br/>
                                                 <img src={v['fileData']} style={{
                                                     width: "33%", height: "auto"
-                                                }}/>
+                                                }} alt={v['fileName']}/>
                                             </Paper>
                                         )
                                     }
