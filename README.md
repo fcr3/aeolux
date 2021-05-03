@@ -148,7 +148,14 @@ $ docker-compose build <service_name>
 ```
 $ docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
 ```
-If there are docker containers that are running or stopped, you must kill the running containers and remove them by doing:
+If there are docker containers that are running or stopped, you must kill the running containers and remove them.
+
+Killing a live container:
+```
+$ docker kill <container_id>
+```
+
+Removing a stopped container:
 ```
 $ docker rm <container_id>
 ```
