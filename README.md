@@ -35,10 +35,10 @@ Below is a setup diagram to help ease the navigation of the README. The relevant
    | Install  |
    ------------
       |        \
-   ----------  -----------
-   | Docker |  | Manual  |
-   | Install|  | Install |
-   ----------  -----------
+   ----------- -----------
+   | Docker  | | Manual  |
+   | Install | | Install |
+   ----------- -----------
       |        /
 ---------------------------
 | Running the Application |
