@@ -96,6 +96,8 @@ If the `unzip` command does not work, you can also unzip the `.zip` file using M
 
 This subsection introduces some links that you can follow to install the necessary prerequisites. As stated previously, the requirement of Docker is recommended, so please follow this [link](https://docs.docker.com/get-docker/) to install Docker on your local machine. Additionally, please follow this [link](https://docs.docker.com/compose/install/) to install Docker Compose on your local machine. Docker provides a kernel level abstraction to contain individual applications, while Docker Compose spins up multiple containers to work with each other.
 
+Mac users have reported that you need to run the application first in order to fully set up your Docker (this probably applies to Windows users, too). Therefore, please run the execute the app via the OS's native UI before moving on to the directions below. Read [here](https://stackoverflow.com/questions/60992814/docker-compose-command-not-available-for-mac) for more details on the Mac issue.
+
 ### <a name="Manual-Installation"></a>Manual Installation
 
 If you cannot install Docker on your machine, you need to install the following packages:
@@ -141,6 +143,7 @@ Once the the third step is fully executed and the application is running, naviga
 $ docker-compose build <service_name>
 ```
 `service_name` refers to the name of one of the four services.
+
 - If you find yourself running out of hard drive space due to `<none>` tagged images (enter `docker images` into the terminal to see your images), then you can clean them by executing the following command:
 ```
 $ docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
@@ -151,6 +154,7 @@ $ docker rm <container_id>
 ```
 Then run the `rmi` command above again to clean up the `<none>` tagged images. You should see a drastic increase in hard drive space.
 
+- If you find yourself running into issues with `docker-compose` not being found, refer to [here](https://stackoverflow.com/questions/60992814/docker-compose-command-not-available-for-mac). TL;DR: run the Docker app, if you haven't already, since it downloads more stuff and does a complete install.
 
 ### <a name="Manual-Demo"></a>Manual Demo
 
