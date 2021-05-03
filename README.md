@@ -35,10 +35,10 @@ Below is a setup diagram to help ease the navigation of the README. The relevant
    | Install  |
    ------------
       |        \
-   ----------  -----------
-   | Docker |  | Manual  |
-   | Install|  | Install |
-   ----------  -----------
+   ----------- -----------
+   | Docker  | | Manual  |
+   | Install | | Install |
+   ----------- -----------
       |        /
 ---------------------------
 | Running the Application |
@@ -125,7 +125,7 @@ This subsection goes over how to install Aeolux.ai on your local machine using D
 ```
 $ cd app
 ```
-2. Execute the following command:
+2. Execute the following command. Lots of issues occur around this step, primarily around memory. Please refer to the <b>Known Issues</b> section below for tips on how fix these issues. TL;DR: you will probably need to increase your memory limit in the docker configuration UI.
 ```
 $ docker-compose build
 ```
@@ -142,7 +142,7 @@ Once the the third step is fully executed and the application is running, naviga
 ```
 $ docker-compose build <service_name>
 ```
-`service_name` refers to the name of one of the four services.
+`service_name` refers to the name of one of the four services. Furthermore, refer to [here](https://www.petefreitag.com/item/848.cfm) for changing the memory limit. By default, it will be set to 2, so you may need to change it to 4 or 5 GB.
 
 - If you find yourself running out of hard drive space due to `<none>` tagged images (enter `docker images` into the terminal to see your images), then you can clean them by executing the following command:
 ```
@@ -170,7 +170,7 @@ This subsection goes over how to install Aeolux.ai on your local machine using a
 #### <a name="Frontend-Setup"></a>1. Frontend Setup
 This subsubsection goes over how to set up the frontend. The directions are below. <b>Note</b> that this section assumes a working installation of NodeJS. Please follow the directions [here](#Manual-Installation) to install NodeJS and other required dependencies for manual setup.
 
-1.1. Open a new terminal/command line window/tab and execute the following commands. <b>Note</b> that you should be in the root of the project directory:
+1.1. Open a new terminal/command line window/tab and execute the following commands. <b>Note</b> that you should be in the root of this project.
 ```
 $ cd app/frontend
 $ npm install
