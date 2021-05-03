@@ -182,7 +182,7 @@ Once the frontend is set up, navigate to `localhost:3000` in your browser of cho
 #### <a name="Backend-Setup"></a>2. Backend Setup
 This subsubsection goes over how to set up the frontend. The directions are below. <b>Note</b> that this section assumes a working installation of conda. Please follow the directions [here](#Manual-Installation) to install conda and other required dependencies for manual setup.
 
-2.1 Open a new terminal/command line window/tab and execute the following commands:
+2.1 Open a new terminal/command line window/tab and execute the following commands. <b>Note</b> that you must currently be in the root of this project.
 ```
 $ conda create --name aeolux-backend python=3.7
 $ conda activate aeolux-backend
