@@ -170,7 +170,7 @@ This subsection goes over how to install Aeolux.ai on your local machine using a
 #### <a name="Frontend-Setup"></a>1. Frontend Setup
 This subsubsection goes over how to set up the frontend. The directions are below. <b>Note</b> that this section assumes a working installation of NodeJS. Please follow the directions [here](#Manual-Installation) to install NodeJS and other required dependencies for manual setup.
 
-1.1. Open a new terminal/command line window/tab and execute the following commands. <b>Note</b> that you should be in the root of the project directory:
+1.1. Open a new terminal/command line window/tab and execute the following commands. <b>Note</b> that you should be in the root of this project.
 ```
 $ cd app/frontend
 $ npm install
