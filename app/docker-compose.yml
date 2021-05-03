@@ -33,7 +33,6 @@ services:
       - aeolux
     depends_on:
       - redis
-    runtime: nvidia
 
   backend:
     image: aeolux/backend:main
