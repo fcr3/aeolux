@@ -125,7 +125,7 @@ This subsection goes over how to install Aeolux.ai on your local machine using D
 ```
 $ cd app
 ```
-2. Execute the following command:
+2. Execute the following command. Lots of issues occur around this step, primarily around memory. Please refer to the <b>Known Issues</b> section below for tips on how fix these issues. TL;DR: you will probably need to increase your memory limit in the docker configuration UI.
 ```
 $ docker-compose build
 ```
@@ -142,7 +142,7 @@ Once the the third step is fully executed and the application is running, naviga
 ```
 $ docker-compose build <service_name>
 ```
-`service_name` refers to the name of one of the four services.
+`service_name` refers to the name of one of the four services. Furthermore, refer to [here](https://www.petefreitag.com/item/848.cfm) for changing the memory limit. By default, it will be set to 2, so you may need to change it to 4 or 5 GB.
 
 - If you find yourself running out of hard drive space due to `<none>` tagged images (enter `docker images` into the terminal to see your images), then you can clean them by executing the following command:
 ```
