@@ -59,8 +59,11 @@ services:
     image: aeolux/frontend:main
     container_name: frontend1
     build: $PWD/frontend
+    command: "./entrypoint.sh prod"
     links:
       - backend
+    volumes:
+      - $PWD/frontend:/usr/src/app
     ports:
       - 3000:3000
     environment:
