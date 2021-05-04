@@ -140,7 +140,7 @@ def object_detection_yolo(self, data_list):
     print(f'Conducting Inference. CUDA: {torch.cuda.is_available()}')
     model = torch.hub.load(
         'ultralytics/yolov5', 'custom', 
-        path_or_model=model_paths['yolov5'],
+        path=model_paths['yolov5'],
     )
     sample_detections = conduct_inference_yolo(batch_input, model)
     label_map = sample_detections['label_map']
