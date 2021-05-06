@@ -12,15 +12,25 @@
     * [Dockerized Demo](#Dockerized-Demo)
     * [Manual Demo](#Manual-Demo)
 * [Training and Testing](#Training-and-Testing)
+    * [General Instructions](#General-TT)
     * [Dockerized Training and Testing](#Docker-TT)
-    * [Manual Training and Testing](#Manual-TT)
 
 ## <a name="Overview"></a>Overview
 
-This repository serves as the codebase for the Aeolux.ai project.
+This repository serves as the codebase for the Aeolux.ai project. AeoluX.ai is a computer vision solution dedicated to make lung diseases diagnosis a more efficient process by leveraging the potential of artificial intelligence in medical imaging. 
+
+Specifically, the project is a pulmonary pre-diagnostic web service for physicians and X-ray technicians from resource-constrained geographies. By automating chest X-rays analysis using convolutional neural networks, our models are able to detect 14 different lung anomalies on an X-ray. X-ray is the cheapest medical imaging technique globally, which is our first step to make it accessible to all. In addition, Aeolux can process data through basic local GPUS, making it accessible in all remote locations. Our service thus allows us to prioritize urgent cases and redirect patients to appropriate specialists and health services.
+
+The figure below illustrates the basic functionality.
+
+<p align="center">
+  <img src="assets/aeolux-decision.png" />
+</p>
+
+Specifically, our UI guides individuals along this path, using deep learning as the main modules to make decisions about which branch to explore. At the leaves, we hope our application enables individuals to seek the appropriate medical care for their needs.
 
 ## <a name="Section-Diagram"></a>Relevant-Section Diagram
-Below is a setup diagram to help ease the navigation of the README. The relevant sections will be in order from top to bottom and connected via edges. Indentations within the diagram represent subsections:
+Below is a setup diagram to help ease the navigation of the README. The relevant sections will be in order from top to bottom and connected via edges. Indentations within the diagramThe assd represent subsections:
 ```
 ------------
 | Overview |
@@ -52,6 +62,11 @@ Below is a setup diagram to help ease the navigation of the README. The relevant
 ------------------------
 | Training and Testing |
 ------------------------
+      |
+   -----------------
+   | General       |
+   | Instructions  |
+   -----------------
       |        \
    ----------  -----------
    | Docker |  | Manual  |
@@ -96,7 +111,7 @@ If the `unzip` command does not work, you can also unzip the `.zip` file using M
 
 This subsection introduces some links that you can follow to install the necessary prerequisites. As stated previously, the requirement of Docker is recommended, so please follow this [link](https://docs.docker.com/get-docker/) to install Docker on your local machine. Additionally, please follow this [link](https://docs.docker.com/compose/install/) to install Docker Compose on your local machine. Docker provides a kernel level abstraction to contain individual applications, while Docker Compose spins up multiple containers to work with each other.
 
-Mac users have reported that you need to run the application first in order to fully set up your Docker (this probably applies to Windows users, too). Therefore, please run the execute the app via the OS's native UI before moving on to the directions below. Read [here](https://stackoverflow.com/questions/60992814/docker-compose-command-not-available-for-mac) for more details on the Mac issue.
+Mac users have reported that you need to (1) update to the latest MacOS version and (2) run the application first in order to fully set up your Docker (this probably applies to Windows users, too). Therefore, please run the execute the app via the OS's native UI before moving on to the directions below. Read [here](https://stackoverflow.com/questions/60992814/docker-compose-command-not-available-for-mac) for more details on the Mac issue.
 
 ### <a name="Manual-Installation"></a>Manual Installation
 
@@ -214,3 +229,59 @@ Once the the third step is fully executed and the application is running, naviga
 
 This section goes over the training and testing procedure used to train and test the object detection models used in Aeolux.ai. It is strongly recommended to use Docker in this scenario, since conflicting dependencies are bound to happen. Nonetheless, a provided manual tutorial is given, but please use with caution as you may inevitably install/uninstall dependencies used by other programs on your computer.
 
+### <a name="General-TT"></a>General Instructions
+Follow these instructions below, regardless of the method you choose (either [Docker](#Docker-TT) or [Manual). Make sure that `gdown` is installed (please follow the pre-requisite instructions before proceeding).
+
+1. Download the following files: [vbd_tfobj_data.zip](https://drive.google.com/file/d/14IsbKcsoDIfOZTJGdWYuDG0z6yh8O1pY/view?usp=sharing) and [vbd_yolov5_data.zip](). Extract the contents of these files, and place these files in the directory `vbd_vol` located in the root of this project. Alternatively, execute the following instructions while in this root of this project:
+```
+$ cd vbd_vol
+$ gdown 14IsbKcsoDIfOZTJGdWYuDG0z6yh8O1pY && unzip vbd_tfobj_data.zip
+$ gdown ... && unzip ...
+```
+Please be patient as these downloads take a very long time. Furthermore, make sure you have at least 10GB of additional space on your hard drive to accomodate the data files. If you are working on limited space, feel free to break up the previous process into segments where you are only working on files related to one of the two zip files.
+
+### <a name="Docker-TT"></a>Dockerized Training and Testing
+Similar to the app dockerized demo section, please be sure to satisfy all requirements stated in the prerequisites section. Please follow the instrucitons below:
+
+1. Execute the following instructions:
+```
+$ docker pull aeoluxdotai/tf_od
+$ docker pull aeoluxdotai/yolov5
+```
+Please be sure to have at least 15GB of additional hard drive space to accomodate these images. If you are working on limited space, pull the images that are relevant for your work. Furthermore, utilization of a GPU is key, and your user experience will be much better with one than without one. The docker images are built on CUDA enabled base images. For reference, we did most of our training on one to two Nvidia GTX 1080s, each with 11GB of memory.
+
+#### Training and Testing Tensorflow Object Detection Models
+This section will go over how to train and test one of our Tensorflow Object Detection models. We will use an `SSD Mobilenet V2` model for our example. This is more or less generalizable to the other models in Tensorflow Object detection, except different paths need to be specified. Please follow the steps below:
+
+1. Execute the following commands to start the docker container:
+```
+$ docker run -it -v /absolute/path/to/aeolux:/home/tensorflow/aeolux2 aeoluxdotai/tf_od bash
+```
+You should now find yourself within the interactive shell of the `aeoluxdotai/tf_od` container. If you would like to specify a port and/or use gpus, include the following tags: 
+- `-p PORT:PORT` for the port you want to use
+- `--gpus all` ("all" can be replaced by the GPU ID) for gpu usage
+
+2. Execute the following commands to download the pre-trained model:
+```
+root@#### $ cd /home/tensorflow/aeolux2/modeling/tf_obj && mkdir pre-trained-models
+root@#### $ cd pre-trained-models
+root@#### $ wget http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz
+root@#### $ tar -zxvf ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz
+```
+The download link comes directly from the links provided in Tensorflow 2's Object Detection Model Zoo. The link to the zoo is [here](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf2_detection_zoo.md). Use the model zoo to download more pre-trained models of interest.
+
+3. Make an output folder for storing checkpoints:
+```
+root@#### $ cd ../models/ssd_mobilenet_v2 && mkdir output
+```
+
+4. Run the training script:
+```
+root@#### $ cd ../..
+root@#### $ python model_main_tf2.py 
+          > --model_dir=models/ssd_mobilenet_v2/output/ 
+          > --pipeline_config_path=models/ssd_mobilenet_v2/pipeline.config
+```
+Originally, the `batch_size` within the custom pipeline.config file (located in `modeling/tf_obj/workspace_vbd/models/ssd_mobilenet_v2`) was equal to 128, but if this is too high, please lower to something more reasonable such as 4, 8, or 12.
+
+#### Training and Testing 
