@@ -96,7 +96,7 @@ $ git clone git@github.com:fcr3/aeolux.git
 ```
 $ cd aeolux
 $ pip install gdown
-$ gdown --id 15_06CvV7xcNvoprrVc5yXwbAgebBIFY
+$ gdown --id 15_06CvV7xcNvoprrVc5yXwbAgebBIFYm
 $ mv aeolux_models.zip app/backend/.
 ```
 Alternatively, you can download the `.zip` file from [here](https://drive.google.com/file/d/15_06CvV7xcNvoprrVc5yXwbAgebBIFYm/view?usp=sharing) and place it in `app/backend`.
@@ -106,7 +106,7 @@ Alternatively, you can download the `.zip` file from [here](https://drive.google
 $ cd app/backend/
 $ unzip aeolux_models.zip
 ```
-If the `unzip` command does not work, you can also unzip the `.zip` file using MacOS or Windows UI. <b>Note</b> that the `aeolux_models.zip` will be located in `app/backend`.
+If the `unzip` command does not work, you can also unzip the `.zip` file using MacOS or Windows UI. <b>Note</b> that the `aeolux_models.zip` will be located in `app/backend`. During the unzip, you might have to click "A" in order to replace everything with the contents within the `.zip` file.
 
 ### <a name="Dockerized-Installation"></a>Dockerized Installation
 
@@ -233,11 +233,11 @@ This section goes over the training and testing procedure used to train and test
 ### <a name="General-TT"></a>General Instructions
 Follow these instructions below, regardless of the method you choose (either [Docker](#Docker-TT) or [Manual). Make sure that `gdown` is installed (please follow the pre-requisite instructions before proceeding).
 
-1. Download the following files: [vbd_tfobj_data.zip](https://drive.google.com/file/d/14IsbKcsoDIfOZTJGdWYuDG0z6yh8O1pY/view?usp=sharing) and [vbd_yolov5_data.zip](). Extract the contents of these files, and place these files in the directory `vbd_vol` located in the root of this project. Alternatively, execute the following instructions while in this root of this project:
+1. Download the following files: [vbd_tfobj_data.zip](https://drive.google.com/file/d/14IsbKcsoDIfOZTJGdWYuDG0z6yh8O1pY/view?usp=sharing) and [vbd_yolov5_data.zip](https://drive.google.com/file/d/1xJCTylck8Snd7bvdbqhjSoGKPtYEEDRk/view?usp=sharing). Extract the contents of these files, and place these files in the directory `vbd_vol` located in the root of this project. Alternatively, execute the following instructions while in this root of this project:
 ```
 $ cd vbd_vol
 $ gdown --id 14IsbKcsoDIfOZTJGdWYuDG0z6yh8O1pY && unzip vbd_tfobj_data.zip
-$ gdown ... && unzip ...
+$ gdown --id 1xJCTylck8Snd7bvdbqhjSoGKPtYEEDRk && unzip vbd_yolov5_data.zip
 ```
 Please be patient as these downloads take a very long time. Furthermore, make sure you have at least 10GB of additional space on your hard drive to accomodate the data files. If you are working on limited space, feel free to break up the previous process into segments where you are only working on files related to one of the two zip files.
 
@@ -262,6 +262,8 @@ You should now find yourself within the interactive shell of the `aeoluxdotai/tf
 - `-p PORT:PORT` for the port you want to use
 - `--gpus all` ("all" can be replaced by the GPU ID) for gpu usage
 
+From here on, we will be using the `/home/tensorflow/aeolux2` directory as the root of the project, as was specified when mounting the directory to the container.
+
 2. Execute the following commands to download the pre-trained model:
 ```
 root@#### $ cd /home/tensorflow/aeolux2/modeling/tf_obj && mkdir pre-trained-models
@@ -269,7 +271,7 @@ root@#### $ cd pre-trained-models
 root@#### $ wget http://download.tensorflow.org/models/object_detection/tf2/20200711/ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz
 root@#### $ tar -zxvf ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz
 ```
-The download link comes directly from the links provided in Tensorflow 2's Object Detection Model Zoo. The link to the zoo is [here](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf2_detection_zoo.md). Use the model zoo to download more pre-trained models of interest.
+The download link comes directly from the links provided in Tensorflow 2's Object Detection Model Zoo. The link to the zoo is [here](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf2_detection_zoo.md). Use the model zoo to download more pre-trained models of interest. If the above link in the execution sequence is out of date, please replace it with the new one (TF-OBJ is a continually maintained project.)
 
 3. Make an output folder for storing checkpoints:
 ```
@@ -283,8 +285,33 @@ root@#### $ python model_main_tf2.py \
           > --model_dir=models/ssd_mobilenet_v2/output/ \
           > --pipeline_config_path=models/ssd_mobilenet_v2/pipeline.config
 ```
-Originally, the `batch_size` within the custom pipeline.config file (located in `modeling/tf_obj/workspace_vbd/models/ssd_mobilenet_v2`) was equal to 128, but if this is too high, please lower to something more reasonable such as 4, 8, or 12.
+Originally, the `batch_size` within the custom pipeline.config file (located in `modeling/tf_obj/workspace_vbd/models/ssd_mobilenet_v2`) was equal to 128, but on consumer computers, such large batch size might be too much. Therefore, we lowered the batch size to something more reasonable such as 8.
 
-5. Once the model is finished
+5. Once the model is finished training, we can evaluate the model by doing the following:
+```
+root@#### $ python model_main_tf2.py \
+          > --model_dir=models/ssd_mobilenet_v2/output/ \
+          > --pipeline_config_path=models/ssd_mobilenet_v2/pipeline_test.config \
+          > --checkpoint_dir=models/ssd_mobilenet_v2/output/ \
+          > --num_workers=1 \
+          > --sample_1_of_n_eval_examples=1
+```
+The command once finished may not exit immediately, so wait until the statistics are shown before you kill the program. Usually, `CTRL + c` is the command to kill a program. Similar to the previous step, the batch size was originally 128, but it was editted to be more manageable on consumer machines.
 
-#### Training and Testing 
+If you would like to evaluate the models we use in our application, you need to change the paths of the command. An example of this could be as follows (this command should be executed in the `modeling/tf_obj/workspace_vbd` directory):
+```
+root@#### $ cp -r /home/tensorflow/aeolux2/app/backend/models/ ./models-trained
+root@#### $ python model_main_tf2.py \
+          > --model_dir=models/ssd_mobilenet_v2/output/ \
+          > --pipeline_config_path=models/ssd_mobilenet_v2/pipeline_test.config \
+          > --checkpoint_dir=models-trained/tf_obj_models/ssd_mobilenetv2_vbd_mb/checkpoint/ \
+          > --num_workers=1 \
+          > --sample_1_of_n_eval_examples=1
+```
+<b>Note</b> that we copied the trained models folder from the `app/backend` directory. You need to follow the prerequisites first before executing the above command because if you don't, the copy command will error (there exists no directory named `models` yet).
+
+#### Known Issues for Tensorfow Object Detection
+- We made a minor change to the exporter script in the Tensorflow Object Detection repo for the exported model to support batch inference. Please refer to this link for details: https://github.com/tensorflow/models/issues/9358. 
+- When you train/test the other models, make sure that you pay attention to the batch size. We have left the original batch sizes as is for the other Tensorflow Object Detection models. Please lower it based on the confines of your machine.
+
+#### Training and Testing YoloV5
