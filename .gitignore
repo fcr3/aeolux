@@ -7,3 +7,6 @@
 *variables.index*
 *__pycache__*
 *src/canvas/examples*
+*.ipynb_*
+*checkpoints*
+*.zip*
