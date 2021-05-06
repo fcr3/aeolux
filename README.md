@@ -257,7 +257,11 @@ $ docker pull aeoluxdotai/yolov5
 Please be sure to have at least 15GB of additional hard drive space to accomodate these images. If you are working on limited space, pull the images that are relevant for your work. Furthermore, utilization of a GPU is key, and your user experience will be much better with one than without one. The docker images are built on CUDA enabled base images. For reference, we did most of our training on one to two Nvidia GTX 1080s, each with 11GB of memory.
 
 #### Training and Testing Tensorflow Object Detection Models
-This section will go over how to train and test one of our Tensorflow Object Detection models. We will use an `SSD Mobilenet V2` model for our example. This is more or less generalizable to the other models in Tensorflow Object detection, except different paths need to be specified. Please follow the steps below:
+This section will go over how to train and test one of our Tensorflow Object Detection models. We will use an `SSD Mobilenet V2` model for our example. This is more or less generalizable to the other models in Tensorflow Object detection, except different paths need to be specified. The other models we trained are:
+- EfficientDet D1
+- SSD Resnet50
+
+Without further ado, please follow the steps below:
 
 1. Execute the following commands to start the docker container:
 ```
@@ -427,3 +431,22 @@ $ conda create --name aeolux_yolov5 python=3.8
 $ conda activate aeolux_yolov5
 (aeolux_yolov5) $ pip install -r requirements.txt
 ```
+
+## <a name="Extras"></a>Extras
+This section is for those who want to explore our repository and are maybe curious about the data we were working with. We used VinBigData as our dataset, but we also came across other datasets as well such as NIH and RSNA. For relevancy purposes, we are mainly showing the visualization and preprocessing that needed to be done for VinBigData.
+
+### <a name="DataVis"></a>Data Visualization
+In the `modeling/analysis` folder, we have a notebook called `vbd_analysis.ipynb` that goes over some brief analysis of the VinBigData set.
+
+### <a name="DataGen"></a>Data Generation
+In the `modeling/tf_obj` folder, we have two notebooks called `data_preprocessing_vbd.ipynb` and `tf_obj_conversion.ipynb` that go over how we converted data from its original format to PASCAL VOC to TFRecords. In the `modeling/yolov5` folder, we have one notebook called `processing.ipynb` that goes over how we reorganized the png data to fit the format that was used to train our Yolov5m model.
+
+### <a name="Experimentals"></a>Experimentals
+Included in this repository are other branches that include bits and pieces of work that we didn't polish up for the official product. However, we would like to explore these endeavours in the future, so please feel free to explore.
+
+Experimentals:
+- In `modeling/analysis`, we have a folder of notebooks that contains processing/exploration of other datasets that we came across.
+- In the `torch_obj` branch, we have examples of how to train DETR, RetinaNet, and Mobilenet using Detectron2
+
+## Conclusion
+This is the end of the README. Thank you so much for reading this far, and we hope that this project can help you or can be used as a spingboard for new ideas. Take Care!
