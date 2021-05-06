@@ -9,3 +9,4 @@
 *src/canvas/examples*
 *.ipynb_*
 *checkpoints*
+*.zip*
