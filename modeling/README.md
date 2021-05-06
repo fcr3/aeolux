@@ -2,7 +2,7 @@
 
 ## Credits
 
-We would like to acknowledge theses groups that contributed to the data that we used for our project. Thank you so much!
+We would like to acknowledge theses groups that contributed to the data and/or training and testing processes that we used for our project. Thank you so much!
 
 1. `sunghyunjun`: Provided us the 1024x1024 jpg dataset that we used to train Tensorflow Object Detection models. The link can be found [here](https://www.kaggle.com/sunghyunjun/vinbigdata-1024-jpg-dataset).
 
