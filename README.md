@@ -96,9 +96,10 @@ $ git clone git@github.com:fcr3/aeolux.git
 ```
 $ cd aeolux
 $ pip install gdown
-$ gdown --id 1sS2S-n__uL7uqll55sCKJvosxRHi858_
+$ gdown --id 15_06CvV7xcNvoprrVc5yXwbAgebBIFY
 $ mv aeolux_models.zip app/backend/.
 ```
+Alternatively, you can download the `.zip` file from [here](https://drive.google.com/file/d/15_06CvV7xcNvoprrVc5yXwbAgebBIFYm/view?usp=sharing) and place it in `app/backend`.
 
 3. If you are working on a Linux machine, you can execute the following command. <b>Note</b> that you should be in the root of the project directory.
 ```
@@ -235,7 +236,7 @@ Follow these instructions below, regardless of the method you choose (either [Do
 1. Download the following files: [vbd_tfobj_data.zip](https://drive.google.com/file/d/14IsbKcsoDIfOZTJGdWYuDG0z6yh8O1pY/view?usp=sharing) and [vbd_yolov5_data.zip](). Extract the contents of these files, and place these files in the directory `vbd_vol` located in the root of this project. Alternatively, execute the following instructions while in this root of this project:
 ```
 $ cd vbd_vol
-$ gdown 14IsbKcsoDIfOZTJGdWYuDG0z6yh8O1pY && unzip vbd_tfobj_data.zip
+$ gdown --id 14IsbKcsoDIfOZTJGdWYuDG0z6yh8O1pY && unzip vbd_tfobj_data.zip
 $ gdown ... && unzip ...
 ```
 Please be patient as these downloads take a very long time. Furthermore, make sure you have at least 10GB of additional space on your hard drive to accomodate the data files. If you are working on limited space, feel free to break up the previous process into segments where you are only working on files related to one of the two zip files.
@@ -278,10 +279,12 @@ root@#### $ cd ../models/ssd_mobilenet_v2 && mkdir output
 4. Run the training script:
 ```
 root@#### $ cd ../..
-root@#### $ python model_main_tf2.py 
-          > --model_dir=models/ssd_mobilenet_v2/output/ 
+root@#### $ python model_main_tf2.py \
+          > --model_dir=models/ssd_mobilenet_v2/output/ \
           > --pipeline_config_path=models/ssd_mobilenet_v2/pipeline.config
 ```
 Originally, the `batch_size` within the custom pipeline.config file (located in `modeling/tf_obj/workspace_vbd/models/ssd_mobilenet_v2`) was equal to 128, but if this is too high, please lower to something more reasonable such as 4, 8, or 12.
+
+5. Once the model is finished
 
 #### Training and Testing 
