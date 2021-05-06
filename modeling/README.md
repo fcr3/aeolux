@@ -17,3 +17,5 @@ We would like to acknowledge theses groups that contributed to the data and/or t
 6. `sxhxliang`: Provided us another example on how to use Detectron2, especially when it comes to specifying YAMLs. Link to the repostiory is [here](https://github.com/sxhxliang/detectron2_backbone).
 
 7. `facebookresearch`: Provided us an example repository on how train a DETR (End-to-End Transformer Model for Object Detection) using Detectron2 (look in the d2 folder). Link to the repository is [here](https://github.com/sxhxliang/detectron2_backbone).
+
+8. `ultralytics`: Provided us the official repository for training YoloV5 models. The official repository is [here](https://github.com/ultralytics/yolov5).

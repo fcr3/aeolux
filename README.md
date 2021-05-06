@@ -14,6 +14,11 @@
 * [Training and Testing](#Training-and-Testing)
     * [General Instructions](#General-TT)
     * [Dockerized Training and Testing](#Docker-TT)
+    * [Manual Training and Testing](#Manual-TT)
+* [Extras](#Extras)
+    * [Data Visualization](#DataVis)
+    * [Data Generation](#DataGen)
+    * [Experimentals](#Experimentals)
 
 ## <a name="Overview"></a>Overview
 
@@ -315,3 +320,110 @@ root@#### $ python model_main_tf2.py \
 - When you train/test the other models, make sure that you pay attention to the batch size. We have left the original batch sizes as is for the other Tensorflow Object Detection models. Please lower it based on the confines of your machine.
 
 #### Training and Testing YoloV5
+This section will go over how to do training and testing with the Yolov5 repository from `ultralytics`. The official repository is [here](https://github.com/ultralytics/yolov5). We have made a copy of the repository in order to accomodate for changes that we might have made. Follow the instructions below:
+
+1. Execute the following command to run the docker container:
+```
+docker run -it --gpus all -v /home/fcr/projects/aeolux2:/root/aeolux2 aeoluxdotai/yolov5 bash
+```
+This time we will involve the gpu flag, just for example's sake. If you do not have a GPU or have not installed Nvidia-docker, this command may not work as you expect.
+
+From here on, we will refer to `/root/aeolux2` as the root directory for this project, as was specified when we mounted the directory to the container.
+
+2. Execute the following command to enable the `aeolux_yolov5` environment:
+```
+(base) root@#### $ conda deactivate
+root@#### $ conda activate aeolux_yolov5
+(aeolux_yolov5) root@#### $ 
+```
+This last line is included to show that your terminal should look similar to the last line.
+
+3. Execute the following commands to train a Yolov5m model:
+```
+(aeolux_yolov5) root@#### $ cd /root/aeolux2/modeling/yolov5
+(aeolux_yolov5) root@#### $ python train.py 
+                          > --data vbd.yaml 
+                          > --cfg yolov5m.yaml 
+                          > --img 512 
+                          > --weights yolov5m.pt 
+                          > --epochs 300 
+                          > --batch-size 16 
+```
+If you would like to try another model, feel free to look at the ultralytics repository to specify another model. The medium sized model that we chose balances memory footprint with precision, so we should this one to use in our application. Furthermore, batch size should be editted to meet your needs. Refer to [training on custom data](https://github.com/ultralytics/yolov5/wiki/Train-Custom-Data) and [training tips](https://github.com/ultralytics/yolov5/wiki/Tips-for-Best-Training-Results). 
+
+If you have multiple GPUs, specify the usage of them by doing the following:
+```
+(aeolux_yolov5) root@#### $ python -m torch.distributed.launch --nproc_per_node 2 train.py 
+                          > --data data/vbd.yaml 
+                          > --cfg yolov5m.yaml 
+                          > --img-size 512 
+                          > --weights yolov5m.pt 
+                          > --epochs 300 
+                          > --batch-size 4
+```
+
+4. Once you are done training the model, choose one of the model outputs located in `modeling/yolov5/runs/train/`. Let's call the chosen output folder as `expn`.
+
+You can choose to test without test time augmentation.
+```
+(aeolux_yolov5) root@#### $ python test.py 
+                          > --weights ./runs/train/expn/weights/best.pt 
+                          > --data data/vbd_test.yaml 
+                          > --img-size 512 
+                          > --batch-size 4
+```
+
+You can also choose to test with test time augmentation. 
+```
+(aeolux_yolov5) root@#### $ python test.py 
+                          > --weights ./runs/train/expn/weights/best.pt 
+                          > --data data/vbd_test.yaml 
+                          > --img-size 512 
+                          > --batch-size 4
+                          > --augment
+```
+For best results, you should choose the augment route, as it is an algorithm specifically design to lower variance by perturbing the image and using the multiple detections from the pertubations to give a single output.
+
+If you would like to test the Yolov5m model that we have trained, execute the following command. <b>Note</b> that we are in the `modeling/yolov5` folder.
+```
+(aeolux_yolov5) root@#### $ cp -r /root/aeolux2/app/backend/models/ ./models-trained
+(aeolux_yolov5) root@#### $ python test.py 
+                          > --weights ./models-trained/torch_models/yolov5/weights/best.pt 
+                          > --data data/vbd_test.yaml 
+                          > --img-size 512 
+                          > --batch-size 4 
+                          > --augment
+```
+<b>Note</b> that we copied the trained models folder from the `app/backend` directory. You need to follow the prerequisites first before executing the above command because if you don't, the copy command will error (there exists no directory named `models` yet).
+
+### <a name="Manual-TT"></a>Manual Training and Testing
+This section is for those who cannot set up Docker on their computer and want to manually set up the experiment. Unfortunately, this is not an easy feat, especially due to the inconsistencies amongst documentation and the various bugs surrounding Tensorflow Object Detection. Yolov5 is a much better user experience. This section will primarily go over tips on how to set up Tensorflow Object Detection and Yolov5. Once you have set up the installations and the environments, you can refer back to the [Docker](#Docker-TT) section for running commands, since they are basically identical after the setup process. However, we <b>STRONGLY</b> recommend that you go the Docker route.
+
+#### Setting up Tensorflow Object Detection Manually
+[Here](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf2.md) is the official instructions to set up the object detection API. However, we can tell you from experience that this will not always work correctly. 
+
+Here are some other tutorials for your reference:
+- https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/install.html
+- https://github.com/TannerGilbert/Tensorflow-Object-Detection-API-Train-Model
+
+Here are some tips if you have issues:
+- If you are missing dependencies in official, simply copy the official folder in models/official into the site-packages folder of python. To find the site-packages folder, do:
+```
+$ python3
+>>> import tensorflow as tf
+>>> tf.__path__
+```
+The output should involve you going through some site-packages folder. Navigate to there, and then copy the models/official folder into this place. 
+
+<b>Note</b> that our Docker container uses Tensorflow/Tensorflow-GPU version 2.3.0, so keep that in mind as you are following this tutorial.
+
+#### Setting up Yolov5 Manually
+Thankfully, the repository from ultralytics is a lot clearer to understand and simpler to set up.
+
+1. Execute the following commands. <b>Note</b> that we are executing commands by starting in the root of the project.
+```
+$ cd modeling/yolov5
+$ conda create --name aeolux_yolov5 python=3.8
+$ conda activate aeolux_yolov5
+(aeolux_yolov5) $ pip install -r requirements.txt
+```
