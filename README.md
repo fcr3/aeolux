@@ -19,7 +19,7 @@
     * [Data Visualization](#DataVis)
     * [Data Generation](#DataGen)
     * [Experimentals](#Experimentals)
-* [Members](#Members)
+* [Contributors](#Contributors)
 * [Conclusion](#Conclusion)
 
 ## <a name="Overview"></a>Overview
@@ -466,7 +466,7 @@ Claire HUANG - claire-hw-huang@berkeley.edu
 Ronel SOLOMON - ronelsolomon@berkeley.edu
 Jad GHADDAR - jadghaddar@berkeley.edu
 ```
-Contact Christian Reyes for repository questions or post a GitHub issues, and contact Crystal for business/logistics questions.
+Contact Christian Reyes for repository questions or post a GitHub issues, and contact aeolux.ai@gmail.com for other questions.
 
 ## <a name="Conclusion"></a>Conclusion
 This is the end of the README. Thank you so much for reading this far, and we hope that this project can help you or can be used as a spingboard for new ideas. Take Care!
