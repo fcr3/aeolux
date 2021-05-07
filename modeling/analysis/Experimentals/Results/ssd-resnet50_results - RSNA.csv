@@ -1,0 +1,13 @@
+metric,IoU,area,maxDeta,value
+Average Precision (AP),0.50:0.95,all,100,0.171
+Average Precision (AP),0.5,all,100,0.511
+Average Precision (AP),0.75,all,100,0.053
+Average Precision (AP),0.50:0.95,small,100,-1
+Average Precision (AP),0.50:0.95,medium,100,0.073
+Average Precision (AP),0.50:0.95,large,100,0.172
+Average Recall (AR),0.50:0.95,all,1,0.155
+Average Recall (AR),0.50:0.95,all,10,0.422
+Average Recall (AR),0.50:0.95,all,100,0.522
+Average Recall (AR),0.50:0.95,small,100,-1
+Average Recall (AR),0.50:0.95,medium,100,0.338
+Average Recall (AR),0.50:0.95,large,100,0.524
