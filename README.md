@@ -467,7 +467,7 @@ Claire HUANG - claire-hw-huang@berkeley.edu
 Ronel SOLOMON - ronelsolomon@berkeley.edu
 Jad GHADDAR - jadghaddar@berkeley.edu
 ```
-Contact Christian Reyes for repository questions or post a GitHub issues, and contact aeolux.ai@gmail.com for other questions.
+Contact Christian Reyes for repository questions or post a GitHub issue, and contact aeolux.ai@gmail.com for other questions.
 
 ## <a name="Credits"></a>Credits
 
