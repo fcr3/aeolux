@@ -11,6 +11,7 @@ This README goes over the Training and Testing and Extras section that was featu
 * [Extras](#Extras)
     * [Data Visualization](#DataVis)
     * [Data Generation](#DataGen)
+    * [Timings](#Timings)
     * [Experimentals](#Experimentals)
 
 ## <a name="Training-and-Testing"></a>Training and Testing
@@ -237,6 +238,7 @@ In the `modeling/tf_obj` folder, we have two notebooks called `data_preprocessin
 In the `modeling/analysis` folder, we have a notebook called `inference_and_timing.ipynb` that goes over how to do inference as well as showcase timings. The notebook was originally run on a computer with the following specifications:
 - CPU: Intel 8th Gen i7-8750H
 - GPU: Nvidia GeForce GTX 1070
+
 Due to the differences in hardware, you may not be able to reproduce results. However, we have hardcoded the performance metrics so that you don't lose reference to timings that we got on our original machine.
 
 ### <a name="Experimentals"></a>Experimentals
