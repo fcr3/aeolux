@@ -215,16 +215,29 @@ $ conda activate aeolux_yolov5
 ```
 
 ## <a name="Results"></a>Results
-If you would like to see the results generated from our experiements, please navigate to `analysis/Results` to see the results that you should get when running the evaluation scripts using the models that we have provided (look at the prerequisites section in the README located at the root of the project).
+If you would like to see the results generated from our experiements, please navigate to `modeling/analysis/Results` to see the results that you should get when running the evaluation scripts using the models that we have provided (look at the prerequisites section in the README located at the root of the project).
 
 ## <a name="Extras"></a>Extras
 This section is for those who want to explore our repository and are maybe curious about the data we were working with. We used VinBigData as our dataset, but we also came across other datasets as well such as NIH and RSNA. For relevancy purposes, we are mainly showing the visualization and preprocessing that needed to be done for VinBigData.
+
+Before exploring these folders, please execute the following commands in the `modeling` folder (assuming you have a working Conda installation):
+```
+$ conda create --name aeolux_extras python=3.8
+$ conda activate aeolux_extras
+(aeolux_extras) $ pip install -r requirements.txt
+```
 
 ### <a name="DataVis"></a>Data Visualization
 In the `modeling/analysis` folder, we have a notebook called `vbd_analysis.ipynb` that goes over some brief analysis of the VinBigData set.
 
 ### <a name="DataGen"></a>Data Generation
 In the `modeling/tf_obj` folder, we have two notebooks called `data_preprocessing_vbd.ipynb` and `tf_obj_conversion.ipynb` that go over how we converted data from its original format to PASCAL VOC to TFRecords. In the `modeling/yolov5` folder, we have one notebook called `processing.ipynb` that goes over how we reorganized the png data to fit the format that was used to train our Yolov5m model.
+
+### <a name="Timings"></a>Timings
+In the `modeling/analysis` folder, we have a notebook called `inference_and_timing.ipynb` that goes over how to do inference as well as showcase timings. The notebook was originally run on a computer with the following specifications:
+- CPU: Intel 8th Gen i7-8750H
+- GPU: Nvidia GeForce GTX 1070
+Due to the differences in hardware, you may not be able to reproduce results. However, we have hardcoded the performance metrics so that you don't lose reference to timings that we got on our original machine.
 
 ### <a name="Experimentals"></a>Experimentals
 Included in this repository are other branches that include bits and pieces of work that we didn't polish up for the official product. However, we would like to explore these endeavours in the future, so please feel free to explore.
