@@ -19,6 +19,8 @@
     * [Data Visualization](#DataVis)
     * [Data Generation](#DataGen)
     * [Experimentals](#Experimentals)
+* [Contributors](#Contributors)
+* [Conclusion](#Conclusion)
 
 ## <a name="Overview"></a>Overview
 
@@ -454,5 +456,17 @@ Experimentals:
 - In `modeling/analysis`, we have a folder of notebooks that contains processing/exploration of other datasets that we came across.
 - In the `torch_obj` branch, we have examples of how to train DETR, RetinaNet, and Mobilenet using Detectron2
 
-## Conclusion
+## <a name="Contributors"></a>Contributors
+Meet 6 Golden Bears dedicated to helping people around the world leveraging data science in medical imaging!
+```
+Crystal GONG - crystal.gong@berkeley.edu
+Christian REYES - fcreyes@berkeley.edu
+Sixtine LAURON - sixtine_lauron@berkeley.edu
+Claire HUANG - claire-hw-huang@berkeley.edu
+Ronel SOLOMON - ronelsolomon@berkeley.edu
+Jad GHADDAR - jadghaddar@berkeley.edu
+```
+Contact Christian Reyes for repository questions or post a GitHub issues, and contact aeolux.ai@gmail.com for other questions.
+
+## <a name="Conclusion"></a>Conclusion
 This is the end of the README. Thank you so much for reading this far, and we hope that this project can help you or can be used as a spingboard for new ideas. Take Care!
