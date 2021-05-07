@@ -7,6 +7,7 @@ This README goes over the Training and Testing and Extras section that was featu
     * [General Instructions](#General-TT)
     * [Dockerized Training and Testing](#Docker-TT)
     * [Manual Training and Testing](#Manual-TT)
+* [Results](#Results)
 * [Extras](#Extras)
     * [Data Visualization](#DataVis)
     * [Data Generation](#DataGen)
@@ -213,6 +214,9 @@ $ conda activate aeolux_yolov5
 (aeolux_yolov5) $ pip install -r requirements.txt
 ```
 
+## <a name="Results"></a>Results
+If you would like to see the results generated from our experiements, please navigate to `analysis/Results` to see the results that you should get when running the evaluation scripts using the models that we have provided (look at the prerequisites section in the README located at the root of the project).
+
 ## <a name="Extras"></a>Extras
 This section is for those who want to explore our repository and are maybe curious about the data we were working with. We used VinBigData as our dataset, but we also came across other datasets as well such as NIH and RSNA. For relevancy purposes, we are mainly showing the visualization and preprocessing that needed to be done for VinBigData.
 
@@ -226,6 +230,7 @@ In the `modeling/tf_obj` folder, we have two notebooks called `data_preprocessin
 Included in this repository are other branches that include bits and pieces of work that we didn't polish up for the official product. However, we would like to explore these endeavours in the future, so please feel free to explore.
 
 Experimentals:
-- In `modeling/analysis`, we have a folder of notebooks that contains processing/exploration of other datasets that we came across.
+- In `modeling/analysis/Experimentals`, we have a folder of notebooks that contains processing/exploration of other datasets that we came across.
+- In `modeling/analysis/Experimentals/Results`, we have a folder of results csvs that contain output from running evaluation on other datasets. This folder currently contains only RSNA-based metrics.
 - In the `torch_obj` branch, we have examples of how to train DETR, RetinaNet, and Mobilenet using Detectron2
 
