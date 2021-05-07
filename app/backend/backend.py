@@ -69,9 +69,6 @@ def conduct_inference_yolo(i, model):
 
 # Backend Initialization
 app = Flask(__name__)
-# app.config['CELERY_BROKER_URL'] = 'redis://redis1:6379/0'
-# app.config['CELERY_RESULT_BACKEND'] = 'redis://redis1:6379/0'
-
 app.config['CELERY_BROKER_URL'] = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0')
 app.config['CELERY_RESULT_BACKEND'] = os.getenv('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
 
@@ -99,9 +96,6 @@ def classification(self, data_list):
 
     batch_input = np.array(batch_input)
     batch_tensor = torch.from_numpy(batch_input)
-
-    # if len(batch_tensor.shape) == 3:
-    #     batch_tensor = batch_tensor.unsqueeze(0)
 
     print(f'Conducting inference. CUDA: {torch.cuda.is_available()}')
     model = xrv.models.DenseNet(weights="all")

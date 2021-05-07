@@ -1,12 +1,7 @@
 import React from 'react';
-// import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-// import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-// import ListIcon from '@material-ui/icons/List';
-// import DashboardIcon from '@material-ui/icons/Dashboard';
-// import Divider from '@material-ui/core/Divider';
 
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
