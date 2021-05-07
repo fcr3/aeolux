@@ -87,6 +87,7 @@ Below is a setup diagram to help ease the navigation of the README. The relevant
    | T & T  |  | T & T   |
    ----------  -----------
 ```
+Furthermore, if you navigate to `app` or `modeling`, the README is cut short to just display the relevant information. Feel free to navigate there for a more concentrated view on running the app or running training/testing, respectively.
 
 ## <a name="Prerequisites"></a>Prerequisites
 
