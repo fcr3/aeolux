@@ -22,7 +22,6 @@ export default function Canvass(props) {
             tempCanvas.getContext('2d').drawImage(backgroundImage, 0, 0);
             
             let scale = props.zoomScale ? props.zoomScale : 0.5;
-            // scale = scale && scale < 0.3 ? 0.3 : scale;
             ctx.current.width = width*scale;
             ctx.current.height = height*scale;
             ctx.current.drawImage(
@@ -43,8 +42,6 @@ export default function Canvass(props) {
                     ctx.current.strokeRect(x*scale, y*scale, w*scale, h*scale);
                 }
             }
-            // ctx.current.wdith = backgroundImage.width * 0.1;
-            // ctx.current.height = backgroundImage.height * 0.1;
         }
     }, [props.src, props.detections, props.hiddenDiseases, props.zoomScale]);
 
